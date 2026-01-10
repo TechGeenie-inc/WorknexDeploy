@@ -18,7 +18,7 @@ async function main() {
             data: {
                 id: uuid(),
                 nome: "Administrador de Origem",
-                email: "admin@admin.com",
+                email: "falecom@worknex.tech",
                 senhaHash: senhaHash,
                 role: "adminMaster",
                 permissions: {

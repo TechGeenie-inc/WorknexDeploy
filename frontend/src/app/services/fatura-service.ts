@@ -15,7 +15,7 @@ export class FaturaService {
   };
   faturaEmEdicao?: Fatura;
   faturaEmDelete?: Fatura;
-  apiUrl = 'http://localhost:3000/faturas';
+  apiUrl = 'https://worknexdeploy-production.up.railway.app/faturas';
 
   private faturaSubject = new BehaviorSubject<Fatura[]>([]);
   fatura$ = this.faturaSubject.asObservable();

@@ -24,7 +24,7 @@ export class MembroService {
   membroEmEdicao?: Membro;
   membroEmDelete?: Membro;
   equipesDoMembroEmDelete: Equipe[] = [];
-  apiUrl = 'http://localhost:3000/membros';
+  apiUrl = 'https://worknexdeploy-production.up.railway.app/membros';
 
   private membrosSubject = new BehaviorSubject<Membro[]>([]);
   membros$ = this.membrosSubject.asObservable();

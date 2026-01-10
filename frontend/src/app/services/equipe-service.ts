@@ -18,7 +18,7 @@ export class EquipeService {
   constructor(private http: HttpClient, private toast: ToastService) {
     this.carregarEquipes();
   };
-  apiUrl = 'http://localhost:3000/equipes';
+  apiUrl = 'https://worknexdeploy-production.up.railway.app/equipes';
   equipeEmEdicao?: Equipe;
   equipeSelecionada?: Equipe;
   equipeEmDelete?: Equipe;

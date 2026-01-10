@@ -14,7 +14,7 @@ export class TransacaoService {
   constructor(private http: HttpClient, private toast: ToastService) {
     this.carregarTransacoes();
   };
-  apiUrl = 'http://localhost:3000/transacoes';
+  apiUrl = 'https://worknexdeploy-production.up.railway.app/transacoes';
 
   static REPO_TRANSACAO = "_TRANSACAO";
   transacaoEmEdicao?: Transacao;

@@ -3,7 +3,7 @@ import prisma from "../database/prismaClient.js";
 import fs from "fs";
 import { enviarEmail } from "../utils/email.js";
 
-const ADMIN_EMAIL = "adminMestre@seudominio.com";
+const ADMIN_EMAIL = "falecom@worknex.tech";
 
 async function gerarBackupJSON() {
     const data = {

@@ -15,7 +15,7 @@ export class FuncaoService {
   constructor(private http: HttpClient, private toast: ToastService) {
     this.carregarFuncoes();
   };
-  apiUrl = 'http://localhost:3000/funcoes';
+  apiUrl = 'https://worknexdeploy-production.up.railway.app/funcoes';
   funcaoEmEdicao?: Funcao;
   funcaoEmDelete?: Funcao;
 

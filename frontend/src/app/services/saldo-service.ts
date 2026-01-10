@@ -9,7 +9,7 @@ import { ToastService } from './toast-service';
 export class SaldoService {
   static REPO_CAIXA = "_CAIXA";
 
-  private apiUrl = 'http://localhost:3000/saldo';
+  private apiUrl = 'https://worknexdeploy-production.up.railway.app/saldo';
 
   private saldoSubject =  new BehaviorSubject<number>(0);
   saldo$ = this.saldoSubject.asObservable();

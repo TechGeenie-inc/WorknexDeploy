@@ -19,7 +19,7 @@ export class CalendarService {
   constructor(private http: HttpClient, private toast: ToastService) {
     this.carregarEventos();
   };
-  apiUrl = 'http://localhost:3000/eventos';
+  apiUrl = 'https://worknexdeploy-production.up.railway.app/eventos';
   eventoEmEdicao?: Evento;
   eventoEmDelete?: Evento;
 
