@@ -1,0 +1,57 @@
+<section class="content">
+    <form (keydown.enter)="$event.preventDefault()" #cadastroFrm="ngForm" class="cadastro"
+        (ngSubmit)="adicionarEvento()" ngNativeValidate>
+        <section class="card">
+            <div class="pop-up-title">
+                <h2 class="title-card">Adicione um Novo Evento</h2>
+                <lucide-angular (click)="closeModal()" [img]="X" [size]="20"></lucide-angular>
+            </div>
+            <h3 class="subtitle">Adicione seu novo marcador no calendário do Sistema</h3>
+            <label class="title-label">Título do Evento</label>
+            <div class="search-input">
+                <input placeholder="Digite o título do evento" [(ngModel)]="evento.title" name="title" type="text"
+                    required />
+            </div>
+
+            <div class="grid-options">
+                <div class="wrap-content">
+                    <label class="title-label">Data de Início</label>
+                    <div class="search-input">
+                        <input [(ngModel)]="startString" name="start" type="date" required
+                            (change)="verificarDatas()" />
+                    </div>
+                </div>
+
+                <div class="wrap-content">
+                    <label class="title-label">Data de Finalização</label>
+                    <div class="search-input">
+                        <input [(ngModel)]="endString" name="end" type="date" required (change)="verificarDatas()" />
+                    </div>
+                </div>
+            </div>
+
+            @if (dataInvalida) {
+            <div class="invalid-data">
+                <p> AVISO: ESSA DATA ESTÁ INVÁLIDA </p>
+            </div>
+            }
+
+            <div class="actions">
+                <button mat-flat-button (click)="closeModal()" class="cancelar-botao">Cancelar</button>
+                @if(atualizando){
+
+                <button mat-flat-button type="button" (click)="deletar()" class="cancelar-botao">Apagar</button>
+
+                }
+                @if(!atualizando) {
+
+                <button mat-flat-button type="submit" class="button" [disabled]="dataInvalida">Adicionar</button>
+                } @else {
+
+                <button mat-flat-button type="button" class="button" (click)="atualizarEvento()"
+                    [disabled]="dataInvalida">Atualizar</button>
+                }
+            </div>
+        </section>
+    </form>
+</section>

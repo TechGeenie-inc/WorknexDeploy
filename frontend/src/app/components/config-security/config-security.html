@@ -1,0 +1,30 @@
+<div class="cardBackground">
+    <div class="configContent">
+        <div class="cardTitle">
+            <lucide-angular class="icon" [size]="20" [img]="Shield"></lucide-angular>
+            <h2>Configurações de Segurança</h2>
+        </div>
+        <p>Configure opções adicionais para a sua conta</p>
+        <div class="optionLine">
+            <div>
+                <h3 class="h3Option">Autentincação de Dois Fatores</h3>
+                <p>Adicione uma camada de segurança para a sua conta</p>
+            </div>
+            <app-slider-button [checked]="!!usuario?.autenticacaoAtiva" (change)="atualizar2FA()"></app-slider-button>
+        </div>
+        <div class="optionLine">
+            <div>
+                <h3 class="h3Option">Notificações de Login</h3>
+                <p>Receba alertas quando alguém acessar sua conta</p>
+            </div>
+            <app-slider-button [disabled]="true" [checked]="true"></app-slider-button>
+        </div>
+        <div class="optionLine">
+            <div>
+                <h3 class="h3Option">Timeout de Sessão</h3>
+                <p>Desconectar automaticamente após inatividade</p>
+            </div>
+            <app-slider-button [disabled]="true" [checked]="true"></app-slider-button>
+        </div>
+    </div>
+</div>

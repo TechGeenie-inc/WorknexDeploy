@@ -1,0 +1,13 @@
+<div class="cardBackground">
+    <div class="content">
+        <h2>{{title}}</h2>
+        <p>{{subtitle}}</p>
+
+        <div class="listItem">
+            @for (item of items; track $index) {
+            <app-big-card-list-item [title]="item.title" [title2]="item.title2" [subtitle]="item.subtitle"
+                [subtitle2]="item.subtitle2"></app-big-card-list-item>
+            }
+        </div>
+    </div>
+</div>

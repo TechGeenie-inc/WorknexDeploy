@@ -1,0 +1,83 @@
+.listItemBackground{
+  border-radius: 0.75rem; 
+  width: 100%;
+  overflow-y: hidden;
+  background-color: var(--elements-alt, #f5f5f5);
+  overflow: hidden;
+  margin-bottom: 20px;
+}
+
+.line{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.content { //O conteudo
+  padding-left: 1vw;
+  padding-right: 1vw;
+  padding-bottom: 15px;
+  padding-top: 15px;
+  p{
+    margin-top: 0px;
+    margin-bottom: 0px;
+  }
+}
+
+.h2Title{
+  margin-top: 0;
+  font-size: 1rem;
+  font-weight: 500;
+  margin-bottom: 3px;
+  max-width: 300px;
+}
+.title2{
+  color: var(--titles-color,#000000);
+  font-size: 0.9rem;
+  font-weight: 500;
+}
+.title2Green{
+  color: #16a34a;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.title2Red{
+  color: #dc2626;
+  font-size: 0.9rem;
+  font-weight: 600;
+}
+.subtitle{
+  font-size: 0.9rem;
+}
+.subtitle2{
+  font-size: 0.8rem;
+}
+
+@media (max-width: 1300px) {
+  .h2Title {
+    font-size: 0.9rem;
+    max-width: 300px;
+  }
+}
+@media (max-width: 1280px) {
+  .h2Title {
+    max-width: 200px;
+    max-height: 40px;
+    overflow-y: hidden;
+  }
+}
+@media (max-width: 768px) {
+  .h2Title {
+    font-size: 0.8rem;
+    max-width: 250px;
+  }
+  .title2, 
+  .title2Green, 
+  .title2Red, 
+  .subtitle {
+    font-size: 0.8rem;
+  }
+  .subtitle2 {
+    font-size: 0.7rem; 
+  }
+}

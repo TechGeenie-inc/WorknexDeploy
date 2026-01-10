@@ -1,0 +1,9 @@
+<div class="buttonLine">
+    @for (option of options; track $index) {
+    <button class="secondaryNavButton" [class.selected]="selectedIndex === $index" [class.noTransition]="!animate"
+        (click)="select($index)">
+        <lucide-angular class="icon" [size]="20" [img]="option.icon"></lucide-angular>
+        <p>{{ option.label }}</p>
+    </button>
+    }
+</div>

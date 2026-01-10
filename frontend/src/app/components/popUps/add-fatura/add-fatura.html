@@ -1,0 +1,75 @@
+<section class="content">
+    <form (keydown.enter)="$event.preventDefault()" #cadastroFrm="ngForm" class="cadastro"
+        (ngSubmit)="adicionarFatura()" ngNativeValidate>
+        <section class="card">
+            <div class="inside-content">
+                <div class="pop-up-title">
+                    <h2 class="title-card">Gerar Nova Fatura</h2>
+                    <lucide-angular (click)="closeModal()" [img]="X" [size]="20"></lucide-angular>
+                </div>
+                <h3 class="subtitle">Crie uma fatura baseada em um projeto concluído</h3>
+                <label class="title-label">Projeto concluído</label>
+                <div class="search-input">
+                    <select #selectFechamento name="idFechamento" class="select select-limitado"
+                        [(ngModel)]="fatura.fechamentoId" (change)="selecionarFechamento(selectFechamento.value)"
+                        required>
+                        <option value="">Selecione...</option>
+                        <option *ngFor="let fe of fechamentos" [value]="fe.id">{{ fe.equipe?.nomeEquipe }}
+                        </option>
+                    </select>
+                </div>
+
+                @if (mostrarDetalhes) {
+                <section class="card-fechamento">
+                    <div class="card-fechamento-title">
+                        <h3> Detalhes do projeto </h3>
+                    </div>
+                    <div class="elements-separation">
+                        <p>Valor Total:</p>
+                        <p>R$ {{ fechamentoSelecionado?.valorTotal | number: '1.2-2' }}</p>
+                    </div>
+                    <div class="elements-separation">
+                        <p>Membros:</p>
+                        <p>{{ quantidadeMembros }}</p>
+                    </div>
+                    <div class="elements-separation">
+                        <p>Período:</p>
+                        <p>
+                            {{ fechamentoSelecionado?.equipe?.dataInicio | date: 'dd/MM/yyyy' }}
+                            -
+                            {{ fechamentoSelecionado?.equipe?.dataFinal | date: 'dd/MM/yyyy' }}
+                        </p>
+                    </div>
+                </section>
+                }
+
+                <label class="title-label">Data de Vencimento</label>
+                <div class="search-input">
+                    <input [(ngModel)]="fatura.vencimento" name="vencimento" type="date" class="select select-limitado"
+                        required />
+                </div>
+
+                <label class="title-label">Forma de Pagamento</label>
+                <div class="search-input">
+                    <select #selectForma name="tipoTransacao" class="select" [(ngModel)]="fatura.formaPagamento"
+                        required>
+                        <option [value]="undefined">Selecione...</option>
+                        <option [value]="FormaPagamento.BoletoBancario">Boleto Bancário</option>
+                        <option [value]="FormaPagamento.CartaoDeCredito">Cartão de Crédito</option>
+                        <option [value]="FormaPagamento.Pix">Pix</option>
+                        <option [value]="FormaPagamento.TransferenciaBancaria">Transferência Bancária</option>
+                    </select>
+                </div>
+
+            </div>
+            <div class="actions">
+                <button mat-flat-button (click)="closeModal()" class="cancelar-botao">Cancelar</button>
+                @if(!atualizando) {
+                <button mat-flat-button type="submit" class="button">Adicionar</button>
+                } @else {
+                <button mat-flat-button class="button" (click)="atualizarFatura()">Atualizar</button>
+                }
+            </div>
+        </section>
+    </form>
+</section>

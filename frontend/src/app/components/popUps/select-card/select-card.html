@@ -1,0 +1,33 @@
+<section class="select-section">
+    <div class="check-card">
+        <div class="content">
+            <div class="title-part">
+                <lucide-angular [size]="20" [img]="icon"></lucide-angular>
+
+                <div class="title-wrap">
+                    <h4 class="check-title">{{ title }}</h4>
+                    <h5 class="check-subtitle">{{ subtitle }}</h5>
+                </div>
+
+            </div>
+            <div class="acoes">
+                <div class="check">
+                    <input type="checkbox" [checked]="permissions.view" (change)="toggle('view', $event.target.checked)">
+                    <p>Visualizar</p>
+                </div>
+                <div class="check">
+                    <input type="checkbox" [checked]="permissions.create" (change)="toggle('create', $event.target.checked)">
+                    <p>Criar</p>
+                </div>
+                <div class="check">
+                    <input type="checkbox" [checked]="permissions.edit" (change)="toggle('edit', $event.target.checked)">
+                    <p>Editar</p>
+                </div>
+                <div class="check">
+                    <input type="checkbox" [checked]="permissions.delete" (change)="toggle('delete', $event.target.checked)">
+                    <p>Excluir</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>

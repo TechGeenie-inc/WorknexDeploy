@@ -1,0 +1,131 @@
+<section class="content">
+    <form (keydown.enter)="$event.preventDefault()" #cadastroFrm="ngForm" class="cadastro" (ngSubmit)="verificarEmail()"
+        ngNativeValidate>
+        <section class="card">
+            <div class="inside-content">
+                <div class="pop-up-title">
+                    <h2 class="title-card">Novo Usuário</h2>
+                    <lucide-angular (click)="closeModal()" [img]="X" [size]="20"></lucide-angular>
+                </div>
+                <h3 class="subtitle">Adicione uma novo usuário ao sistema</h3>
+
+                <div class="page-control">
+                    <app-segmented-control [options]="['Usuário', 'Permissões']" [selectedIndex]="userIsOpen ? 0 : 1"
+                        (selectionChange)="onSelectionChange($event)">
+                    </app-segmented-control>
+                </div>
+
+                @if (userIsOpen) {
+
+                <div class="wrap-intern-content">
+                    <label class="title-label">Nome do usuário</label>
+                    <div class="search-input">
+                        <input placeholder="Digite o nome" [(ngModel)]="usuario.nome" name="nomeUsuario" type="text"
+                            required />
+                    </div>
+                </div>
+
+                <div class="wrap-intern-content">
+                    <label class="title-label">Email do usuário</label>
+                    <div class="search-input">
+                        <input placeholder="Digite o email" [(ngModel)]="usuario.email" name="emailUsuario" type="text"
+                            required />
+                    </div>
+                </div>
+
+                <div class="wrap-intern-content">
+                    <label class="title-label">Senha do usuário</label>
+                    <div class="search-input">
+                        <input placeholder="******" [(ngModel)]="usuario.senha" name="senhaUsuario" type="password"
+                            required />
+                    </div>
+                </div>
+
+
+                <div class="wrap-intern-content">
+                    <label class="title-label"> Nível de acesso </label>
+                    <div class="search-input">
+                        <select name="role" class="select" [(ngModel)]="usuario.role"
+                            (ngModelChange)="verificarRole($event)" required>
+                            <option [ngValue]="Role.admin">Administrador</option>
+                            <option [ngValue]="Role.gerente">Gerente</option>
+                            <option [ngValue]="Role.visualizador">Visualizador</option>
+                            <option [ngValue]="Role.personalizado">Personalizado</option>
+                        </select>
+                    </div>
+                </div>
+                }
+
+                @if (!userIsOpen) {
+                @if(roleSelecionada) {
+                <div class="role-warning">
+                    <lucide-angular [size]="40" [img]="Settings"></lucide-angular>
+                    <h2>O nível de acesso escolhido já vem com permissões predefinidas!</h2>
+                </div>
+                }
+
+                @if(!roleSelecionada) {
+                <div class="title-check">
+                    <p>Configure as permissões específicas para este usuário em cada módulo do sistema.</p>
+                </div>
+
+                <app-select-card [icon]="User" title="Membros" subtitle="Gerencie os membros do sistema"
+                    [permissions]="usuario.permissions!['membros']"
+                    (permissionsChange)="onPermissionsChange('membros', $event)">
+                </app-select-card>
+
+                <app-select-card [icon]="Users" title="Equipes" subtitle="Criar e gerenciar equipes de trabalho"
+                    [permissions]="usuario.permissions!['equipes']"
+                    (permissionsChange)="onPermissionsChange('equipes', $event)">
+                </app-select-card>
+
+                <app-select-card [icon]="Boxes" title="Funções" subtitle="Criar e gerenciar as funções dos membros"
+                    [permissions]="usuario.permissions!['funcoes']"
+                    (permissionsChange)="onPermissionsChange('funcoes', $event)">
+                </app-select-card>
+
+                <app-select-card [icon]="Building2" title="Clientes" subtitle="Cadastro e gestão de clientes"
+                    [permissions]="usuario.permissions!['clientes']"
+                    (permissionsChange)="onPermissionsChange('clientes', $event)">
+                </app-select-card>
+
+                <app-select-card [icon]="Calendar" title="Agenda" subtitle="Visualizar cronogramas e projetos"
+                    [permissions]="usuario.permissions!['agenda']"
+                    (permissionsChange)="onPermissionsChange('agenda', $event)">
+                </app-select-card>
+
+                <app-select-card [icon]="FileText" title="Faturamento" subtitle="Emitir e gerenciar faturas"
+                    [permissions]="usuario.permissions!['faturamento']"
+                    (permissionsChange)="onPermissionsChange('faturamento', $event)">
+                </app-select-card>
+
+                <app-select-card [icon]="BookText" title="Fechamento" subtitle="Finalizar projetos e calcular valores"
+                    [permissions]="usuario.permissions!['fechamento']"
+                    (permissionsChange)="onPermissionsChange('fechamento', $event)">
+                </app-select-card>
+
+                <app-select-card [icon]="Banknote" title="Fluxo de Caixa" subtitle="Controle financeiro e transações"
+                    [permissions]="usuario.permissions!['fluxoDeCaixa']"
+                    (permissionsChange)="onPermissionsChange('fluxoDeCaixa', $event)">
+                </app-select-card>
+
+                <app-select-card [icon]="Settings" title="Configurações" subtitle="Configurações do sistema"
+                    [permissions]="usuario.permissions!['configuracoes']"
+                    (permissionsChange)="onPermissionsChange('configuracoes', $event)">
+                </app-select-card>
+                }
+                }
+
+
+            </div>
+            <div class="actions">
+                <button mat-flat-button (click)="closeModal()" class="cancelar-botao">Cancelar</button>
+                @if(!atualizando) {
+                <button mat-flat-button type="submit" class="button">Adicionar</button>
+                } @else {
+                <button mat-flat-button class="button" (click)="atualizarUsuario()" type="button">Atualizar</button>
+                }
+            </div>
+        </section>
+    </form>
+</section>

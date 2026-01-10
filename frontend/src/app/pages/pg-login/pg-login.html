@@ -1,0 +1,42 @@
+<div class="loginBackground">
+    <div class="loginCard">
+        <div class="titleCard">
+            <div class="loginIcon">
+                <lucide-angular class="icon" [size]="50" [img]="Building"></lucide-angular>
+            </div>
+
+            <div class="titleLogin">
+                <h2>TrampoWork Login!</h2>
+                <p>Sistema de Gerenciamento de Freelancers</p>
+            </div>
+        </div>
+
+        @if(!etapa2FA) {
+        <div class="formField">
+            <form #cadastroFrm="ngForm" class="cadastro" (ngSubmit)="login()" ngNativeValidate>
+                <section class="inputContainer">
+                    <div class="labelInput">
+                        <label> E-mail</label>
+                        <input class="configInput" type="text" name="email" [(ngModel)]="user.email">
+                    </div>
+                    <div class="labelInput">
+                        <label> Senha</label>
+                        <input class="configInput" type="password" name="password" [(ngModel)]="user.senha">
+                    </div>
+                    <div class="buttonSection">
+                        <app-main-button [isLongButton]="true" [text]="'Login'" type="submit"></app-main-button>
+                    </div>
+                </section>
+            </form>
+        </div>
+        }
+
+        @if (etapa2FA) {
+        <h3 class="title-2FA">Insira o código enviado para {{ email2FA }}</h3>
+        <input class="input-2FA" [(ngModel)]="codigo2FA" maxlength="6" placeholder="Código 2FA">
+        <div class="button-section">
+            <app-main-button [isLongButton]="true" [text]="'Validar código'" type="button" (click)="validar2FA()"></app-main-button>
+        </div>
+        }
+    </div>
+</div>

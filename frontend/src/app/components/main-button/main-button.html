@@ -1,0 +1,25 @@
+@if (!isLongButton) {
+<button class="mainButton" [class.altTheme]="altButton" [attr.type]="type" (click)="createRipple($event)">
+    @if (icon) {
+    <lucide-angular [size]="16" [img]="icon"></lucide-angular>
+    }
+    {{text}}
+    @for (ripple of ripples(); track $index) {
+    <!-- For que gera os ripples -->
+    <span class="ripple" [style.left.px]="ripple.x" [style.top.px]="ripple.y" [style.width.px]="ripple.size"
+        [style.height.px]="ripple.size" (animationend)="removeRipple(ripple.id)"></span> }
+    <!-- animationend dispara o metodo que "apaga" os ripple da array de ripples ativos -->
+</button>
+} @else {
+<button class="longButton" [class.altTheme]="altButton" [attr.type]="type" (click)="createRipple($event)">
+    @if (icon) {
+    <lucide-angular [size]="16" [img]="icon"></lucide-angular>
+    }
+    {{text}}
+    @for (ripple of ripples(); track $index) {
+    <!-- For que gera os ripples -->
+    <span class="ripple" [style.left.px]="ripple.x" [style.top.px]="ripple.y" [style.width.px]="ripple.size"
+        [style.height.px]="ripple.size" (animationend)="removeRipple(ripple.id)"></span> }
+    <!-- animationend dispara o metodo que "apaga" os ripple da array de ripples ativos -->
+</button>
+}

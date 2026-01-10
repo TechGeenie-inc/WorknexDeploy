@@ -1,0 +1,100 @@
+.background{ //O fundo do card
+  background-color: var(--elements-background, #ffffff);
+  align-items: center;
+  border-radius: 0.75rem; 
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);//
+  border: 0.5px solid var(--borders, #e5e5e5);
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);//
+  border: 0.5px solid var(--borders, #e5e5e5);
+  overflow: hidden;
+  margin-bottom: 30px;
+  box-sizing: border-box;
+}
+
+.content { //O conteudo
+  padding: 25px;
+  padding-top: 10px;
+  display: flex;
+  flex-direction: column;
+  h2{
+    font-size: 1.1rem;
+    margin-bottom: 0;
+  }
+  p{
+    margin-top: 2px;
+    margin-bottom: 20px;
+  }
+}
+
+.line{
+  margin-top: 20px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  p{
+    color: #000000;
+    font-size: 0.9rem;
+  }
+  h3{
+    margin: 0;
+  }
+}
+
+.info{
+  margin-top: 20px;
+  margin-bottom: 0px;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-evenly;
+  align-items: center;
+}
+
+.graph{
+  display: flex;
+  flex-direction: row;
+  background-color:#000000;
+  height: 8px;
+  width: 100%;
+  border-radius: 6px;
+  overflow-y: hidden;
+}
+.greenGraph{
+  background-color:#16a34a;
+  height: 8px;
+}
+.yellowGraph{
+  background-color:#ca8a04;
+  height: 8px;
+}
+.redGraph{
+  background-color:#dc2626;
+  height: 8px;
+}
+
+
+.paid{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h3{
+    color: #16a34a;
+  }
+}
+.pending{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h3{
+    color: #ca8a04;
+  }
+}
+.overdue{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  h3{
+    color: #dc2626;
+  }
+}

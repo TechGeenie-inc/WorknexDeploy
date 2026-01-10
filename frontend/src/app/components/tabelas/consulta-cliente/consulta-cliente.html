@@ -1,0 +1,132 @@
+<section class="content">
+    <form #pesquisaForm="ngForm">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title> Lista de Clientes </mat-card-title>
+                <mat-card-subtitle> Gerencie todos os clientes cadastrados no sistema </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="search-container">
+                    <div class="search-input">
+                        <mat-icon class="search-icon" fontIcon="search"></mat-icon>
+                        <input [(ngModel)]="termoBusca" (ngModelChange)="buscaLive($event)" name="termoBusca"
+                            type="text" placeholder="Buscar por nome, email ou empresa. . ." />
+                        @if (termoBusca) {
+                        <button type="button" class="clear-search" (click)="limparBusca()" aria-label="Limpar busca">
+                            <mat-icon fontIcon="close"></mat-icon>
+                        </button>
+                        }
+                    </div>
+                    <button class="csvButton" type="button" (click)="exportar()">
+                        <lucide-angular class="icon" [size]="20" [img]="Download"></lucide-angular>
+                        Exportar
+                    </button>
+                </div>
+            </mat-card-content>
+            <div class="table">
+                <table mat-table [dataSource]="clientesPaginados">
+                    <ng-container matColumnDef="cliente">
+                        <th mat-header-cell *matHeaderCellDef>Cliente</th>
+                        <td mat-cell *matCellDef="let cliente">
+                            <div class="display-cliente">
+                                <span class="avatar">
+                                    {{ criarAvatar(cliente.razaoSocial || cliente.nomeFantasia || cliente.nomeCompleto
+                                    || 'Sem nomeação') }}
+                                </span>
+                                <p [matTooltip]="cliente.razaoSocial || cliente.nomeFantasia || cliente.nomeCompleto || 'Sem nomeação'"
+                                    matTooltipPosition="above">
+                                    {{ truncate(cliente.razaoSocial || cliente.nomeFantasia || cliente.nomeCompleto ||
+                                    'Sem nomeação') }}
+                                </p>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="contato">
+                        <th mat-header-cell *matHeaderCellDef>Contato</th>
+                        <td class="table-desc" mat-cell *matCellDef="let cliente">
+                            <div class="telefone-cliente">
+                                <mat-icon fontIcon="call"></mat-icon>
+                                {{ maskPhone(cliente.contato) || "Não cadastrado"}}
+                            </div>
+                            <div class="email-cliente">
+                                <mat-icon fontIcon="mail"></mat-icon>
+                                <span class="overflowText" [matTooltip]="cliente.email || 'Não cadastrado'"
+                                    matTooltipPosition="above">
+                                    {{ truncateEmail(cliente.email || 'Não cadastrado') }}
+                                </span>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="empresa">
+                        <th mat-header-cell *matHeaderCellDef>Empresa</th>
+                        <td mat-cell *matCellDef="let cliente">
+                            <div class="empresa-cliente">
+                                <mat-icon fontIcon="apartment"></mat-icon>
+                                <span
+                                    [matTooltip]="cliente.nomeFant || cliente.nomeFantasia || cliente.nomeCompleto || 'Sem nomeação'"
+                                    matTooltipPosition="above">
+                                    {{ truncate(cliente.razaoSocial || cliente.nomeFantasia || cliente.nomeCompleto ||
+                                    'Sem nomeação') }}
+                                </span>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="projetos">
+                        <th mat-header-cell *matHeaderCellDef>Projetos</th>
+                        <td mat-cell *matCellDef="let cliente">
+                            {{ cliente.projetosTotal || 0 }} projeto(s)
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef>Status</th>
+                        <td mat-cell *matCellDef="let cliente">
+                            <div class="ativos">
+                                {{ cliente.projetosAtivos || 0 }} ativo(s)
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="cadastro">
+                        <th mat-header-cell *matHeaderCellDef>Cadastro</th>
+                        <td mat-cell *matCellDef="let cliente">
+                            <div class="cliente-cadastro">
+                                <mat-icon fontIcon="calendar_today"></mat-icon>
+                                {{ cliente.cadastro | date:'dd/MM/yyyy' }}
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acoes">
+                        <th mat-header-cell *matHeaderCellDef>Ações</th>
+                        <td mat-cell *matCellDef="let cliente">
+                            <div class="buttons">
+                                <button (click)="preparaEditar(cliente.id)">
+                                    <lucide-angular [img]="SquarePen" [size]="20"></lucide-angular>
+                                </button>
+                                <button type="button" (click)="preparaDeletar(cliente)">
+                                    <lucide-angular [img]="Trash2" color="red" [size]="20"></lucide-angular>
+                                </button>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="columnsTable"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columnsTable;"></tr>
+                </table>
+            </div>
+            @if (listaClientes.length >= 1) {
+            <div class="paginador">
+                <button (click)="currentPage = currentPage - 1; atualizarLista()"
+                    [disabled]="currentPage === 1">«</button>
+                <span>Página {{currentPage}} de {{totalPages}}</span>
+                <button (click)="currentPage = currentPage + 1; atualizarLista()"
+                    [disabled]="currentPage === totalPages">»</button>
+            </div>
+            }
+        </mat-card>
+    </form>
+</section>

@@ -1,0 +1,54 @@
+<div class="page-container">
+    <h1>Dashboard</h1>
+    <p>Visão geral do sistema de gerenciamento de freelancers</p>
+
+    <app-small-card-section>
+        <app-small-card title="Membros Ativos" [icon]="User" mainText="{{ membrosAtivos }}"
+            subtitle="Freelancers cadastrados" color="blue">
+        </app-small-card>
+        <app-small-card title="Equipes Ativas" [icon]="Users" mainText="{{ equipesCadastradas }}"
+            subtitle="Projetos em andamento" color="green">
+        </app-small-card>
+        <app-small-card title="Clientes" [icon]="Building2" mainText="{{ clientesCadastrados }}"
+            subtitle="Clientes Cadastrados" color="purple">
+        </app-small-card>
+
+        @if (saldoAtual >= 0) {
+        <app-small-card title="Fluxo Líquido" [icon]="ChartNoAxesCombined"
+            mainText="R$ {{ saldoAtual | number: '1.2-2' }}" subtitle="Lucro Acumulado" color="green">
+        </app-small-card>
+        }
+        @if (saldoAtual < 0) { <app-small-card title="Fluxo Líquido" [icon]="ChartNoAxesCombined"
+            mainText="R$ {{ saldoAtual | number: '1.2-2' }}" subtitle="Prejuízo Acumulado" color="red">
+            </app-small-card>
+            }
+    </app-small-card-section>
+
+    <div class="subtitulo">
+        <h2>Resumo Financeiro</h2>
+    </div>
+
+    <app-small-card-section>
+        <app-small-card title="Receita Total" [icon]="DollarSign" mainText="R$ {{ receitaTotal | number: '1.2-2' }}"
+            subtitle="Quantia recebida em pagamentos" color="green">
+        </app-small-card>
+        <app-small-card title="Despesas Totais" [icon]="Receipt" mainText="R$ {{ despesaTotal | number: '1.2-2' }}"
+            subtitle="Pagamentos Realizados" color="red">
+        </app-small-card>
+        <app-small-card title="Faturas Pendentes" [icon]="TriangleAlert" mainText="{{ faturasPendentes }}"
+            subtitle="Aguardando Pagamento" color="yellow">
+        </app-small-card>
+        <app-small-card title="Projetos Concluídos" [icon]="CircleCheckBig" mainText="{{ projetosConcluidos }}"
+            subtitle="Este mês" color="orange">
+        </app-small-card>
+    </app-small-card-section>
+
+    <app-big-card-section>
+        <app-big-card [title]="'Equipes Ativas'" [subtitle]="'Projetos em andamento'" [items]="equipesAtivas">
+        </app-big-card>
+        <app-big-card [title]="'Transações Recentes'" [subtitle]="'Últimas movimentações financeiras'"
+            [items]="ultimasTransacoes">
+        </app-big-card>
+    </app-big-card-section>
+
+</div>

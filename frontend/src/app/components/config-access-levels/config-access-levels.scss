@@ -1,0 +1,89 @@
+.cardBackground2{ //O fundo do card
+  align-items: center;
+  border-radius: 0.75rem; 
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+  border: 0.5px solid var(--borders, #e5e5e5);;
+  overflow: hidden;
+  box-sizing: border-box;
+  background-color: var(--elements-alt, #ffffff);;
+}
+
+.configContent {
+  margin-bottom: 20px;
+}
+
+.content2 { //O conteudo
+  padding: 20px;
+  align-items: center;
+  justify-content: flex-start;
+  display: flex;
+  flex-direction: row;
+  gap: 6px;
+  h2{
+    margin: 0;
+    font-size: 1rem;
+  }
+  p{
+    margin: 0;
+    font-size: 0.85rem;
+  }
+}
+
+.gridLayout {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 20px;
+}
+
+.redIconBackground {
+    background-color: #ffe2e2;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+}
+.blueIconBackground {
+    background-color: #dbeafe;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    border-radius: 8px;
+    display: flex;
+    .icon {
+        color: #2b4cbe;
+    }
+}
+.purpleIconBackground {
+    background-color: #ede9fe;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    border-radius: 8px;
+    .icon {
+        color: #5b21b6;
+    }
+}
+.iconBackground {
+    background-color: #f3f4f6;
+    width: fit-content;
+    height: fit-content;
+    padding: 10px;
+    border-radius: 8px;
+}
+
+@media (max-width: 1200px) {
+    .gridLayout {
+        grid-template-columns: 1fr 1fr; 
+    }
+}
+@media (max-width: 768px) {
+    .gridLayout {
+        grid-template-columns: 1fr; 
+        gap: 12px;
+    }
+    
+    .content2 {
+        padding: 16px;
+    }
+}

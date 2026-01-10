@@ -1,0 +1,17 @@
+@if (!isGiant) {
+<div class="segmentedControlBackground">
+    @for (option of options; track $index) {
+    <button type="button" class="segmentedButton" [class.selected]="selectedIndex === $index" (click)="select($index)">
+        <p>{{option}}</p>
+    </button>
+    }
+</div>
+} @else {
+<div class="giantSegmentedControlBackground">
+    @for (option of options; track $index) {
+    <button type="button" class="giantSegmentedButton" [class.selected]="selectedIndex === $index" (click)="select($index)">
+        <p>{{option}}</p>
+    </button>
+    }
+</div>
+}

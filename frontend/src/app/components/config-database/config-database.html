@@ -1,0 +1,21 @@
+<div class="cardBackground">
+    <div class="configContent">
+        <div class="cardTitle">
+            <lucide-angular class="icon" [size]="20" [img]="Database"></lucide-angular>
+            <h2>Gerenciamento de Dados</h2>
+        </div>
+        <p>Exporte, importe ou limpe os dados do sistema</p>
+        <div class="buttonsDisplay">
+            <app-main-button [isLongButton]=true [icon]="Upload" [text]="'Exportar Dados'" (click)="exportarDados()"></app-main-button>
+            <app-main-button [isLongButton]=true [icon]="Download" [text]="'Importar Dados'" (click)="abrirInputArquivo()"></app-main-button>
+            <input #fileInput type="file" accept=".json" style="display: none;" (change)="onArquivoSelecionado($event)" />
+            @if(disabledButton) {
+                <app-main-button [isLongButton]=true [icon]="Eraser" [text]="'Remover dados'" (click)="confirm()"></app-main-button>
+            }
+            @if (!disabledButton) {
+                <app-main-button [isLongButton]=true [icon]="Trash2" [text]="'Apagar Dados'" (click)="limparDados()"></app-main-button>
+            }
+        </div>
+        <p>Use essas opções para fazer backup, restaurar ou limpar dados do sistema.</p>
+    </div>
+</div>

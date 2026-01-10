@@ -1,0 +1,52 @@
+.select-section {
+    margin-top: 20px;
+}
+
+.check-card {
+    border-radius: 12px;
+    border: .5px solid var(--borders, #e5e5e5);
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+    height: 160px;
+    max-height: 185px;
+    width: 100%;
+    font-size: clamp(.8rem, .8vw, 1.2rem);
+}
+
+.content {
+    padding: 12px;
+    padding-top: 2px;
+}
+
+.title-part {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    lucide-angular {
+        margin-right: 15px;
+    }
+}
+
+.check-title {
+    margin-bottom: 0px;
+}
+
+.check-subtitle {
+    font-weight: 500;
+    color: #c9c9c9;
+    margin-top: 0px;
+}
+
+.acoes {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-top: 20px;
+}
+
+.check {
+    display: flex;
+    flex-direction: row;
+    input {
+        margin-right: 4px;
+    }
+}

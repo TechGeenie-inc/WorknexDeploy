@@ -1,0 +1,27 @@
+<section class="content">
+    <section class="card">
+        <div class="center">
+            @if (useCase == 0) {
+            <p>Tem certeza que deseja editar essas informações?</p>
+            } @else if (useCase == 1) {
+            <p>Tem certeza que deseja ALTERAR sua SENHA?</p>
+            } @else if (useCase == 2) {
+            <p>Alterar o esquema de cores pode afetar negativamente o visual e a experiência do usuário. Tem certeza que
+                deseja aplicar as alterações?</p>
+            } @else if (useCase == 3) {
+            <p>Tem certeza que deseja APAGAR TODOS os registros do banco de dados?</p>
+            } @else if (useCase == 4) {
+            <p>Tem certeza que deseja apagar este usuário?</p>
+            } @else if (useCase== 5) {
+            <p>Tem certeza que deseja desabilitar a Autenticação de 2 Fatores?</p>
+            } @else if (useCase == 6) {
+            <p>Tem certeza que deseja restaurar o visual padrão?</p>
+            }
+        </div>
+
+        <div class="actions">
+            <app-main-button [text]="'Cancelar'" [altButton]="true" (click)="closeModal()"></app-main-button>
+            <app-main-button [text]="'Confirmar'" (click)="confirmar()"></app-main-button>
+        </div>
+    </section>
+</section>

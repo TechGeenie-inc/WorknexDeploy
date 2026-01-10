@@ -1,0 +1,173 @@
+<section class="content">
+    <form (keydown.enter)="$event.preventDefault()" #cadastroFrm="ngForm" class="cadastro"
+        (ngSubmit)="adicionarCliente()" ngNativeValidate>
+        <section class="card">
+            <div class="card-content">
+                <div class="pop-up-title">
+                    <h2 class="title-card">Novo Cliente</h2>
+                    <lucide-angular (click)="closeModal()" [img]="X" [size]="20"></lucide-angular>
+                </div>
+                <h3 class="subtitle">Adicione um novo cliente com todas as informações necessárias para faturamento.
+                </h3>
+                <div class="select-div">
+                    <label class="title-label">Tipo de Cliente</label>
+                    <select name="accountType" class="select" [(ngModel)]="cliente.tipoCliente"
+                        (ngModelChange)="onTipoClienteChange($event)">
+                        <option [ngValue]="undefined">Selecione...</option>
+                        <option [ngValue]="'CPF'">Pessoa Física</option>
+                        <option [ngValue]="'CNPJ'">Pessoa Jurídica</option>
+                    </select>
+                </div>
+                <div class="grid-options">
+                    @if (cliente.tipoCliente === 'CNPJ') {
+
+                    <div class="wrap-intern-content">
+                        <label class="title-label">Razão Social</label>
+                        <div class="search-input-with-icon">
+                            <lucide-angular [img]="IdCard" [size]="18" class="input-icon"></lucide-angular>
+                            <input placeholder="Digite a razão social" [(ngModel)]="cliente.razaoSocial"
+                                name="razaoSocial" type="text" required />
+                        </div>
+                    </div>
+
+                    <div class="wrap-intern-content">
+                        <label class="title-label">CNPJ</label>
+                        <div class="search-input-with-icon">
+                            <lucide-angular [img]="FileText" [size]="18" class="input-icon"></lucide-angular>
+                            <input mask="00.000.000/0000-00" placeholder="00.000.000/0000-00" [(ngModel)]="cliente.cnpj"
+                                name="cnpj" type="text" required />
+                        </div>
+                    </div>
+
+                    <div class="wrap-intern-content">
+                        <label class="title-label">E-mail</label>
+                        <div class="search-input-with-icon">
+                            <lucide-angular [img]="Mail" [size]="18" class="input-icon"></lucide-angular>
+                            <input placeholder="Digite o email" [(ngModel)]="cliente.email" name="email" type="text"
+                                required />
+                        </div>
+                    </div>
+
+                    <div class="wrap-intern-content">
+                        <label class="title-label">Telefone</label>
+                        <div class="search-input-with-icon">
+                            <lucide-angular [img]="Phone" [size]="18" class="input-icon"></lucide-angular>
+                            <input mask="(00) 00000-00000" placeholder="(00) 00000-00000" [(ngModel)]="cliente.contato"
+                                name="contato" type="text" required />
+                        </div>
+                    </div>
+
+                    <div class="wrap-intern-content">
+                        <label class="title-label">Nome Fantasia</label>
+                        <div class="search-input-with-icon">
+                            <lucide-angular [img]="Biulding2" [size]="18" class="input-icon"></lucide-angular>
+                            <input placeholder="Nome Fantasia" [(ngModel)]="cliente.nomeFantasia" name="nomeFantasia"
+                                type="text" required />
+                        </div>
+                    </div>
+
+                    <div class="wrap-intern-content">
+                        <label class="title-label">Inscrição Estadual</label>
+                        <div class="search-input-with-icon">
+                            <lucide-angular [img]="List" [size]="18" class="input-icon"></lucide-angular>
+                            <input mask="000.000.000.000" placeholder="000.000.000.000"
+                                [(ngModel)]="cliente.inscricaoEstadual" name="inscricaoEstadual" type="text" required />
+                        </div>
+                    </div>
+
+                    }
+
+                    @if(cliente.tipoCliente === 'CPF') {
+
+                    <div class="wrap-intern-content">
+                        <label class="title-label">Nome Completo</label>
+                        <div class="search-input-with-icon">
+                            <lucide-angular [img]="User" [size]="18" class="input-icon"></lucide-angular>
+                            <input placeholder="Ex: João Silva" [(ngModel)]="cliente.nomeCompleto" name="nome"
+                                type="text" required />
+                        </div>
+                    </div>
+
+                    <div class="wrap-intern-content">
+                        <label class="title-label">CPF</label>
+                        <div class="search-input-with-icon">
+                            <lucide-angular [img]="IdCard" [size]="18" class="input-icon"></lucide-angular>
+                            <input mask="000.000.000-00" placeholder="000.000.000-00" [(ngModel)]="cliente.cpf"
+                                name="cpf" type="text" required />
+                        </div>
+                    </div>
+
+                    <div class="wrap-intern-content">
+                        <label class="title-label">E-mail</label>
+                        <div class="search-input-with-icon">
+                            <lucide-angular [img]="Mail" [size]="18" class="input-icon"></lucide-angular>
+                            <input placeholder="Digite o email" [(ngModel)]="cliente.email" name="email" type="text"
+                                required />
+                        </div>
+                    </div>
+
+                    <div class="wrap-intern-content">
+                        <label class="title-label">Telefone</label>
+                        <div class="search-input-with-icon">
+                            <lucide-angular [img]="Phone" [size]="18" class="input-icon"></lucide-angular>
+                            <input mask="(00) 00000-00000" placeholder="(00) 00000-00000" [(ngModel)]="cliente.contato"
+                                name="contato" type="text" required />
+                        </div>
+                    </div>
+                    }
+                </div>
+
+                <div class="card-intern-text">
+                    <lucide-icon [img]="MapPin" [size]="18"></lucide-icon>
+                    <p> Endereço para faturamento </p>
+                </div>
+
+                <label class="title-label">Endereço Completo</label>
+                <div class="search-input">
+                    <input placeholder="Rua, número e complemento" [(ngModel)]="cliente.enderecoCompleto"
+                        name="enderecoCompleto" type="text" />
+                </div>
+
+                <div class="triple-way-grid">
+                    <div class="wrap-intern-content">
+                        <label class="title-label">Cidade</label>
+                        <div class="search-input">
+                            <input placeholder="Cidade" [(ngModel)]="cliente.cidade" name="cidade" type="text" />
+                        </div>
+                    </div>
+
+                    <div class="wrap-intern-content">
+                        <label class="title-label">Estado</label>
+                        <div class="search-input">
+                            <input placeholder="SP, RJ, MG. . ." [(ngModel)]="cliente.estado" name="estado"
+                                type="text" />
+                        </div>
+                    </div>
+
+                    <div class="wrap-intern-content">
+                        <label class="title-label">CEP</label>
+                        <div class="search-input">
+                            <input mask="00000-000" placeholder="00000-000" [(ngModel)]="cliente.cep" name="cep"
+                                type="text" (ngModelChange)="onCepChange($event)" />
+                        </div>
+                    </div>
+                </div>
+                <label class="title-label">Observações</label>
+                <div class="search-input">
+                    <textarea placeholder="Informações adicionais sobre o Cliente. . ."
+                        [(ngModel)]="cliente.observacoes" name="observacoes" rows="4" type="text">
+                </textarea>
+                </div>
+
+                <div class="actions">
+                    <button mat-flat-button (click)="closeModal()" class="cancelar-botao">Cancelar</button>
+                    @if(!atualizando) {
+                    <button mat-flat-button type="submit" class="button">Adicionar</button>
+                    } @else if (atualizando) {
+                    <button mat-flat-button type="button" class="button" (click)="atualizarCliente()">Atualizar</button>
+                    }
+                </div>
+            </div>
+        </section>
+    </form>
+</section>

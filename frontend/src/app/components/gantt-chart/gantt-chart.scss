@@ -1,0 +1,168 @@
+.background {
+    background-color: var(--elements-background, #ffffff);
+    align-items: center;
+    border-radius: 0.75rem; 
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);//
+    border: 0.5px solid var(--borders, #e5e5e5);
+    overflow: hidden;
+    margin-bottom: 30px;
+    box-sizing: border-box;
+}
+
+.content { //O conteudo
+    padding: 25px;
+    padding-top: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.titleLine{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 6px;
+    lucide-angular {
+      color: var(--titles-color, #201a19);
+    }
+  }
+
+.previousNext {
+  display: flex;
+  flex-direction: line;
+  gap: 6px;
+  padding-bottom: 4px;
+}
+
+button {
+  font-family: 'Geist', sans-serif;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  gap: 6px;
+  border-radius: 10px;
+  width: fit-content;
+  height: 30px;
+  text-align: start;
+  transition: 0.3s ease;
+  background-color: #ffffff;
+  border: 1px solid var(--borders, #eaeaea);
+  cursor: pointer;
+
+  .icon,
+  p {
+    color: #000000;
+  }
+}
+button:hover {
+  background-color: #e5e5e5;
+}
+button:active{
+  background-color: #d5d5d5;
+}
+
+.buttonHoje {
+  padding-left: 10px;
+  padding-right: 10px;
+}
+.headerLine {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-around;
+    align-items: center;
+    h3, h2 {
+        margin: 0;
+        margin-top: 6px;
+    }
+}
+
+.spacerLine{
+    height: 0.8px;
+    width: 100%;
+    background-color: #e8e8e8;
+}
+
+.noEvent{
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+
+
+@media (max-width: 960px) {
+    .headerLine {
+        h3 {
+             display: none;
+        }
+    }
+
+    .titleLine h2 {
+        font-size: 0;
+        margin: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        line-height: 1.2;
+
+        &::before {
+            content: "Cronograma de Projetos";
+            font-size: 1.1rem;
+            font-weight: 600;
+        }
+
+    }
+
+    .ganttItem {
+        /* Muda de 2 colunas para 1 coluna */
+        grid-template-columns: 1fr;
+        
+        /* Adiciona espaço vertical entre o bloco de info e o gráfico */
+        gap: 15px;
+        
+        /* Adiciona uma linha sutil para separar melhor os itens, já que ficarão mais altos */
+        padding-bottom: 20px;
+        border-bottom: 1px solid var(--borders, #f5f5f5);
+    }
+
+    .content {
+        /* Garante que o container de info/status ocupe a largura total */
+        width: 100%;
+        
+        /* Espalha o conteúdo: Texto à esquerda, Status à direita */
+        justify-content: space-between;
+    }
+
+    .info {
+        /* Remove a largura mínima rígida para evitar overflow em telas muito pequenas */
+        min-width: auto;
+    }
+
+    .status {
+        /* Remove o width: 100% que centralizava o status anteriormente */
+        width: auto;
+        padding-left: 20px; /* Um respiro entre o texto e a tag */
+        justify-content: flex-end; /* Alinha o status à direita */
+    }
+}
+
+/* Opcional: Para telas MUITO pequenas (celulares), quebramos mais uma vez */
+@media (max-width: 500px) {
+
+  .headerLine {
+    h2 {
+      font-size: 0.9rem;
+    }
+  }
+
+    .content {
+        flex-direction: column; /* Empilha Info e Status */
+        align-items: flex-start;
+        gap: 10px;
+    }
+    
+    .status {
+        width: 100%;
+        justify-content: flex-start;
+        padding-left: 0;
+    }
+}

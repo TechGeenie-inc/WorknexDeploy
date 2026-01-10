@@ -1,0 +1,144 @@
+<section class="content">
+    <form #pesquisaForm="ngForm">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title> Lista de Faturas </mat-card-title>
+                <mat-card-subtitle> Gerencie todas as faturas e controle de pagamentos </mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <div class="search-container">
+                    <div class="search-input">
+                        <mat-icon class="search-icon" fontIcon="search"></mat-icon>
+                        <input [(ngModel)]="termoBusca" (input)="filtrarFaturas()" name="termoBusca" type="text"
+                            placeholder="Buscar por cliente ou equipe da fatura" />
+                        @if (termoBusca) {
+                        <button type="button" class="clear-search" (click)="limparBusca()" aria-label="Limpar busca">
+                            <mat-icon fontIcon="close"></mat-icon>
+                        </button>
+                        }
+                    </div>
+                    <div class="search-input">
+                        <select class="select" [(ngModel)]="filtroStatus" name="pesquisaStatus"
+                            (ngModelChange)="filtrarFaturas()">
+                            <option [ngValue]="undefined">Todos</option>
+                            <option [ngValue]="'pago'">Pago</option>
+                            <option [ngValue]="'pendente'">Pendente</option>
+                            <option [ngValue]="'vencido'">Vencido</option>
+                        </select>
+                    </div>
+                    <button class="csvButton" type="button" (click)="exportar()">
+                        <lucide-angular class="icon" [size]="20" [img]="Download"></lucide-angular>
+                        Exportar
+                    </button>
+                </div>
+            </mat-card-content>
+            <div class="table">
+                <table mat-table [dataSource]="faturasPaginadas">
+                    <ng-container matColumnDef="fatura">
+                        <th mat-header-cell *matHeaderCellDef>Fatura</th>
+                        <td mat-cell *matCellDef="let fatura"> #{{ fatura.friendlyId }} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="cliente">
+                        <th mat-header-cell *matHeaderCellDef>Cliente</th>
+                        <td mat-cell *matCellDef="let fatura">
+                            <span>
+                                {{ truncateCliente(fatura.clienteNome) }}
+                            </span>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="valor">
+                        <th mat-header-cell *matHeaderCellDef>Valor</th>
+                        <td mat-cell *matCellDef="let fatura">
+                            <div class="fatura-flex">
+                                <lucide-angular [img]="DollarSign" [size]="14"></lucide-angular>
+                                R$ {{ fatura.valorTotal | number:'1.2-2'}}
+                            </div>
+
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="vencimento">
+                        <th mat-header-cell *matHeaderCellDef>Vencimento</th>
+                        <td mat-cell *matCellDef="let fatura">
+                            <div class="fatura-flex">
+                                <mat-icon fontIcon="calendar_today"></mat-icon>
+                                {{ fatura.vencimento | date:'dd/MM/yyyy'}}
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="pagamento">
+                        <th mat-header-cell *matHeaderCellDef>Pagamento</th>
+                        <td mat-cell *matCellDef="let fatura">
+                            @switch (fatura.formaPagamento) {
+                            @case ('cartaoDeCredito') {
+                            Cartão de Crédito
+                            }
+                            @case ('boletoBancario') {
+                            Boleto Bancário
+                            }
+                            @case ('transferenciaBancaria') {
+                            Transferência Bancária
+                            }
+                            @case ('pix') {
+                            PIX
+                            }
+                            }
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="status">
+                        <th mat-header-cell *matHeaderCellDef>Status</th>
+                        <td mat-cell *matCellDef="let fatura">
+                            @if (fatura.status === 'pago') {
+                            <p class="status ativo">Pago</p>
+                            } @else if (fatura.status === 'pendente') {
+                            <p class="status">Pendente</p>
+                            } @else if (fatura.status === 'vencido') {
+                            <p class="status vencido">Vencido</p>
+                            }
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acoes">
+                        <th mat-header-cell *matHeaderCellDef>Ações</th>
+                        <td mat-cell *matCellDef="let fatura">
+                            <div class="buttons">
+                                @if(fatura.status === 'pendente') {
+                                <button (click)="alterarStatus(fatura.id)">
+                                    <lucide-angular [img]="Check" [size]="20"></lucide-angular>
+                                </button>
+                                } @else if (fatura.status === 'pago') {
+                                <button (click)="alterarStatus(fatura.id)">
+                                    <lucide-angular [img]="X" [size]="20"></lucide-angular>
+                                </button>
+                                } @else if (fatura.status === 'vencido') {
+                                <button (click)="alterarStatus(fatura.id)">
+                                    <lucide-angular [img]="Check" [size]="20"></lucide-angular>
+                                </button>
+                                }
+                                <button type="button" (click)="preparaDeletar(fatura)">
+                                    <lucide-angular [img]="Trash2" color="red" [size]="20"></lucide-angular>
+                                </button>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="columnsTable"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columnsTable;"></tr>
+                </table>
+            </div>
+            @if (listaFatura.length >= 1) {
+            <div class="paginador">
+                <button (click)="currentPage = currentPage - 1; atualizarLista()"
+                    [disabled]="currentPage === 1">«</button>
+                <span>Página {{currentPage}} de {{totalPages}}</span>
+                <button (click)="currentPage = currentPage + 1; atualizarLista()"
+                    [disabled]="currentPage === totalPages">»</button>
+            </div>
+            }
+        </mat-card>
+    </form>
+</section>

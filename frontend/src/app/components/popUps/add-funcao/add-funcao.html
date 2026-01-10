@@ -1,0 +1,31 @@
+<section class="content">
+    <form (keydown.enter)="$event.preventDefault()" #cadastroFrm="ngForm" class="cadastro"
+        (ngSubmit)="adicionarFuncao()" ngNativeValidate>
+        <section class="card">
+            <div class="inside-content">
+                <div class="pop-up-title">
+                    <h2 class="title-card">Nova Função</h2>
+                    <lucide-angular (click)="closeModal()" [img]="X" [size]="20"></lucide-angular>
+                </div>
+                <h3 class="subtitle">Adicione uma nova Função ao sistema</h3>
+
+                <div class="wrap-intern-content">
+                    <label class="title-label">Nome da Função</label>
+                    <div class="search-input">
+                        <input placeholder="Ex: Auxiliar de Limpeza" [(ngModel)]="funcao.nomeFuncao" name="nomeFuncao"
+                            type="text" required />
+                    </div>
+                </div>
+
+            </div>
+            <div class="actions">
+                <button mat-flat-button (click)="closeModal()" class="cancelar-botao">Cancelar</button>
+                @if(!atualizando) {
+                <button mat-flat-button type="submit" class="button">Adicionar</button>
+                } @else {
+                <button mat-flat-button class="button" (click)="atualizarFuncao()" type="button">Atualizar</button>
+                }
+            </div>
+        </section>
+    </form>
+</section>

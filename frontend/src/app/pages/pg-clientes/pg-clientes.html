@@ -1,0 +1,30 @@
+<div class="page-container">
+    <h1>Gerenciamento de Clientes</h1>
+    <p>Cadastre e gerencie todos os clientes do sistema</p>
+
+    <app-small-card-section>
+        <app-small-card title="Total de Clientes" [icon]="Building2" color="blue" mainText="{{ totalClientes }}"
+            subtitle="Clientes Cadastrados" (click)="filtrarTotal()" style="cursor:pointer">
+        </app-small-card>
+        <app-small-card title="Clientes Ativos" [icon]="Users" color="green" mainText="{{ clientesAtivos }}"
+            subtitle="Com projetos em andamento" (click)="filtrarAtivos()" [selected]="cardSelecionado === 'ativos'"
+            style="cursor:pointer">
+        </app-small-card>
+        <app-small-card title="Projetos Ativos" [icon]="FolderClock" color="orange" mainText="{{ projetosAtivos }}"
+            subtitle="Em desenvolvimento">
+        </app-small-card>
+        <app-small-card title="Projetos Concluídos" [icon]="CircleCheckBig" color="purple"
+            mainText="{{ projetosConcluidos }}" subtitle="Finalizados com sucesso">
+        </app-small-card>
+    </app-small-card-section>
+    
+    <div class="subtitulo">
+        @if (perm.can('clientes', 'create')) {
+        <app-main-button [icon]="Plus" [text]="'Novo Cliente'" (click)="openModal()"></app-main-button>
+        }
+    </div>
+
+    <section class="bigTableSection">
+        <app-consulta-cliente></app-consulta-cliente>
+    </section>
+</div>

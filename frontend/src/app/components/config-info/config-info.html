@@ -1,0 +1,66 @@
+<div class="cardBackground">
+    <div class="configContent">
+        <div class="cardTitle">
+            <lucide-angular class="icon" [size]="20" [img]="Building2"></lucide-angular>
+            <h2>Informações da Empresa</h2>
+        </div>
+        <form (keydown.enter)="$event.preventDefault()" #cadastroFrm="ngForm" class="cadastro" (ngSubmit)="saveInfo()"
+            ngNativeValidate>
+            <div class="formSection">
+                <div class="labelInput">
+                    <p>Nome da Empresa</p>
+                    <input [disabled]="!isEditing" [(ngModel)]="config.nomeDaEmpresa" class="configInput" type="text"
+                        name="businessName" placeholder="Nome da sua Empresa">
+                </div>
+                <div class="labelInput">
+                    <p>E-mail</p>
+                    <input [disabled]="!isEditing" class="configInput" type="email" name="businessEmail"
+                        [(ngModel)]="config.email" placeholder="nomedaempresa@gmail.com">
+                </div>
+                <div class="labelInput">
+                    <p>Website</p>
+                    <input [disabled]="!isEditing" class="configInput" type="text" name="businessLink"
+                        [(ngModel)]="config.website" placeholder="www.dominiodaempresa.com.br">
+                </div>
+                <div class="labelInput">
+                    <p>Telefone de Contato</p>
+                    <input [disabled]="!isEditing" class="configInput" type="text" name="businessPhone"
+                        [(ngModel)]="config.contato" placeholder="(00) 00000-00000" mask="(00) 00000-00000">
+                </div>
+                <div class="labelInput">
+                    <p>Endereço</p>
+                    <input [disabled]="!isEditing" class="configInput" type="text" name="businessAdress"
+                        [(ngModel)]="config.endereco" placeholder="Preencha com o endereço">
+                </div>
+                <div class="labelInput">
+                    <p>CNPJ</p>
+                    <input [disabled]="!isEditing" class="configInput" type="text" name="businessCnpj"
+                        [(ngModel)]="config.cnpj" placeholder="00.000.000/0000-00" mask="00.000.000/0000-00">
+                </div>
+                <div class="labelInput">
+                    <p>Razão Social</p>
+                    <input [disabled]="!isEditing" class="configInput" type="text" name="businessSocial"
+                        [(ngModel)]="config.razaoSocial" placeholder="Preencha com a razão social">
+                </div>
+                <div class="labelInput">
+                    <p>Nome Fantasia</p>
+                    <input [disabled]="!isEditing" class="configInput" type="text" name="businessFantasyName"
+                        [(ngModel)]="config.nomeFantasia" placeholder="Preencha com o nome Fantasia">
+                </div>
+                <div class="labelInput">
+                    <p>Inscrição Estadual</p>
+                    <input [disabled]="!isEditing" class="configInput" type="text" name="businessAdress"
+                        [(ngModel)]="config.inscricaoEstadual" placeholder="000.000.000.000" mask="000.000.000.000">
+                </div>
+            </div>
+            <div class="buttonSection">
+                @if (isEditing) {
+                <app-main-button [icon]="Save" [text]="'Salvar Alterações'" type="submit"></app-main-button>
+                } @else {
+                <app-main-button [icon]="PencilRuler" [text]="'Editar Informações'"
+                    (click)="editInfo()"></app-main-button>
+                }
+            </div>
+        </form>
+    </div>
+</div>

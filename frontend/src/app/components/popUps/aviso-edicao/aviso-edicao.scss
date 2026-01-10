@@ -1,0 +1,39 @@
+.card {
+    display: flex;
+    flex-direction: column;
+    width: 25vw;
+    height: 100%;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 1vw;
+    border-radius: 12px;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.card button {
+    width: 6vw;
+}
+
+.center p {
+    color: black;
+    font-size: 0.95rem;
+    font-weight: 500;
+}
+
+ul {
+    list-style-type: none;
+    margin-block-start: 0;
+    padding-inline-start: 0;
+}
+
+.actions {
+    gap: 5px;
+    margin-top: 12px;
+    display: flex;
+    justify-content: end;
+}

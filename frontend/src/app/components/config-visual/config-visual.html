@@ -1,0 +1,122 @@
+<div class="cardBackground">
+    <div class="config-content">
+        <div class="info">
+            <div class="cardTitle">
+                <lucide-angular class="icon" [size]="20" [img]="Palette"></lucide-angular>
+                <h2>Identidade Visual</h2>
+            </div>
+            <p>Edite a identidade Visual em todo o Sistema.</p>
+        </div>
+    </div>
+    <form (keydown.enter)="$event.preventDefault()" #corFrm="ngForm" ngNativeValidate>
+
+        <section class="choicesColumn">
+            <div class="colorChoice">
+                <h3 for="pageBackground">Background das Paginas</h3>
+                <div class="line-color">
+                    <input type="color" id="pageBackground" name="pageBackground" [(ngModel)]="colors.pageBackground">
+                    <p>Cor usada no fundo das páginas e do menu lateral.</p>
+                </div>
+            </div>
+            <div class="colorChoice">
+                <h3 for="titles">Títulos</h3>
+                <div class="line-color">
+                    <input type="color" id="titles" name="titles" [(ngModel)]="colors.titles">
+                    <p>Cor usada nos títulos.</p>
+                </div>
+            </div>
+            <div class="colorChoice">
+                <h3 for="text">Textos</h3>
+                <div class="line-color">
+                    <input type="color" id="text" name="text" [(ngModel)]="colors.text">
+                    <p>Cor padrão para todos os textos.</p>
+                </div>
+            </div>
+            <div class="colorChoice">
+                <h3 for="titles">Nome da Empresa</h3>
+                <div class="line-color">
+                    <input type="color" id="name" name="name" [(ngModel)]="colors.name">
+                    <p>Cor exibida no nome da Empresa.</p>
+                </div>
+            </div>
+            <div class="colorChoice">
+                <h3 for="borders">Bordas (cards, menu lateral e elementos)</h3>
+                <div class="line-color">
+                    <input type="color" id="borders" name="borders" [(ngModel)]="colors.borders">
+                    <p>Outline de todos os elementos do site.</p>
+                </div>
+            </div>
+            <div class="colorChoice">
+                <h3 for="cardBackground">Background de Cards e elementos</h3>
+                <div class="line-color">
+                    <input type="color" id="cardBackground" name="cardBackground" [(ngModel)]="colors.cardBackground">
+                    <p>Background dos elementos do site como cards e tabelas.</p>
+                </div>
+                <div class="line-color">
+                    <input type="color" id="cardAlt" name="cardAlt" [(ngModel)]="colors.cardAlt">
+                    <p>Cor de destaque de Card e Elementos.</p>
+                </div>
+            </div>
+            <div class="colorChoice">
+                <h3>Botão Principal (Também usado pela opção selecionada na navbar)</h3>
+                <div class="line-color">
+                    <input type="color" name="primBtnBg" [(ngModel)]="colors.primaryButtonBackground">
+                    <p>Cor principal do fundo do botão.</p>
+                </div>
+                <div class="line-color">
+                    <input type="color" name="primBtnText" [(ngModel)]="colors.primaryButtonText">
+                    <p>Cor principal do texto do botão.</p>
+                </div>
+                <div class="line-color">
+                    <input type="color" name="primBtnHoverBg" [(ngModel)]="colors.primaryButtonHover">
+                    <p>Cor de realce do fundo do botão.</p>
+                </div>
+                <div class="line-color">
+                    <input type="color" name="primBtnBorder" [(ngModel)]="colors.primaryButtonBorder">
+                    <p>Cor da borda do botão.</p>
+                </div>
+            </div>
+            <div class="colorChoice">
+                <h3>Botão Secundário</h3>
+                <div class="line-color">
+                    <input type="color" name="secBtnBg" [(ngModel)]="colors.secondaryButtonBackground">
+                    <p>Cor principal do fundo do botão.</p>
+                </div>
+                <div class="line-color">
+                    <input type="color" name="secBtnText" [(ngModel)]="colors.secondaryButtonText">
+                    <p>Cor principal do texto do botão.</p>
+                </div>
+                <div class="line-color">
+                    <input type="color" name="secBtnHoverBg" [(ngModel)]="colors.secondaryButtonHover">
+                    <p>Cor de realce do fundo do botão.</p>
+                </div>
+                <div class="line-color">
+                    <input type="color" name="secBtnBorder" [(ngModel)]="colors.secondaryButtonBorder">
+                    <p>Cor da borda do botão.</p>
+                </div>
+            </div>
+            <div class="colorChoice">
+                <h3>Botão Segmentado WIP</h3>
+                <p>Como o presente na aba agenda.</p>
+                <div class="line-color">
+                    <input type="color" name="segmentedBg" [(ngModel)]="colors.segmentedBg">
+                    <p>Cor de fundo.</p>
+                </div>
+                <div class="line-color">
+                    <input type="color" name="segmentedText" [(ngModel)]="colors.segmentedText">
+                    <p>Cor do texto do botão.</p>
+                </div>
+                <div class="line-color">
+                    <input type="color" name="segmentedAlt" [(ngModel)]="colors.segmentedAlt">
+                    <p>Cor de realce da opção escolhida.</p>
+                </div>
+            </div>
+
+        </section>
+    </form>
+    <div class="buttonSection">
+        <app-main-button [icon]="RotateCcw" [text]="'Restaurar Visual'" [altButton]="true"
+            (click)="openResetModal()"></app-main-button>
+        <app-main-button [icon]="Save" [text]="'Salvar Alterações'" (click)="openSaveModal()"></app-main-button>
+    </div>
+</div>

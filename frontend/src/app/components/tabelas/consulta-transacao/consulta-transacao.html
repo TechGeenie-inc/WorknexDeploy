@@ -1,0 +1,138 @@
+<section class="content">
+    <form #pesquisaForm="ngForm">
+        <mat-card>
+            <mat-card-header>
+                <mat-card-title> Movimentações Recentes </mat-card-title>
+                <button class="csvButton" type="button" (click)="exportar()">
+                    <lucide-angular class="icon" [size]="20" [img]="Download"></lucide-angular>
+                    Exportar
+                </button>
+            </mat-card-header>
+            <div class="table">
+                <table mat-table [dataSource]="transacoesPaginadas">
+                    <ng-container matColumnDef="data">
+                        <th mat-header-cell *matHeaderCellDef>Data</th>
+                        <td mat-cell *matCellDef="let transacao">
+                            <div class="flex-transacao">
+                                <mat-icon fontIcon="calendar_today"></mat-icon>
+                                {{ transacao.data | date: 'dd/MM/yyyy'}}
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="tipo">
+                        <th mat-header-cell *matHeaderCellDef>Tipo</th>
+                        <td class="table-desc" mat-cell *matCellDef="let transacao">
+                            @switch (transacao.tipo) {
+                            @case ('receita') {
+                            <p class="receita">
+                                Receita
+                            </p>
+                            }
+                            @case ('despesa') {
+                            <p class="despesa">
+                                Despesa
+                            </p>
+                            }
+                            @case ('despesaOperacional') {
+                            <p class="despesa">
+                                Despesa
+                            </p>
+                            }
+                            }
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="categoria">
+                        <th mat-header-cell *matHeaderCellDef>Categoria</th>
+                        <td mat-cell *matCellDef="let transacao">
+                            @if (transacao.tipo === 'despesaOperacional') {
+                            Despesa Operacional -
+                            @switch (transacao.subcategoria) {
+                            @case ('escritorio') {
+                            Escritório
+                            }
+                            @case ('sofwtare') {
+                            Software
+                            }
+                            @case ('marketing') {
+                            Marketing
+                            }
+                            @case ('equipamentos'){
+                            Equipamentos
+                            }
+                            @case ('outros'){
+                            Outros
+                            }
+                            }
+                            } @else {
+                            @switch (transacao.categoria) {
+                            @case ('pagamentoCliente') {
+                            Pagamento de Cliente
+                            }
+                            @case ('pagamentoFreelancer') {
+                            Pagamento de Freelancer
+                            }
+                            @case ('outros') {
+                            Outros
+                            }
+                            @case ('fatura') {
+                            Fatura
+                            }
+                            }
+                            }
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="desc">
+                        <th mat-header-cell *matHeaderCellDef>Descrição</th>
+                        <td mat-cell *matCellDef="let transacao">{{ transacao.desc }}</td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="valor">
+                        <th mat-header-cell *matHeaderCellDef>Valor</th>
+                        <td mat-cell *matCellDef="let transacao">
+                            @if (transacao.tipo === "receita") {
+                            <p class="adicao">
+                                +R$ {{ transacao.valor | number: '1.2-2'}}
+                            </p>
+                            }
+                            @if (transacao.tipo === "despesa" || transacao.tipo === "despesaOperacional") {
+                            <p class="reducao">
+                                -R$ {{ transacao.valor | number: '1.2-2'}}
+                            </p>
+                            }
+
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="acoes">
+                        <th mat-header-cell *matHeaderCellDef>Ações</th>
+                        <td mat-cell *matCellDef="let transacao">
+                            <div class="buttons">
+                                <button (click)="preparaEditar(transacao.id)">
+                                    <lucide-angular [img]="SquarePen" [size]="20"></lucide-angular>
+                                </button>
+                                <button type="button" (click)="preparaDeletar(transacao)">
+                                    <lucide-angular [img]="Trash2" color="red" [size]="20"></lucide-angular>
+                                </button>
+                            </div>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="columnsTable"></tr>
+                    <tr mat-row *matRowDef="let row; columns: columnsTable;"></tr>
+                </table>
+            </div>
+            @if (listaTransacao.length >= 1) {
+            <div class="paginador">
+                <button (click)="currentPage = currentPage - 1; atualizarLista()"
+                    [disabled]="currentPage === 1">«</button>
+                <span>Página {{currentPage}} de {{totalPages}}</span>
+                <button (click)="currentPage = currentPage + 1; atualizarLista()"
+                    [disabled]="currentPage === totalPages">»</button>
+            </div>
+            }
+        </mat-card>
+    </form>
+</section>

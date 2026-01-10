@@ -1,0 +1,42 @@
+<div class="page-container">
+    <h1>Sistema de Faturamento (Recebimento)</h1>
+    <p>Gerencie faturas, pagamentos e controle financeiro</p>
+
+    <div class="subtitulo">
+        @if(perm.can('faturamento', 'create')) {
+        <app-main-button [icon]="Plus" [text]="'Nova Fatura'" (click)="openModal()"></app-main-button>
+        }
+    </div>
+
+    <app-segmented-control [options]="['Resumo Financeiro', 'Faturas']" [selectedIndex]="paginaFatura ? 0 : 1"
+        (selectionChange)="onSelectionChange($event)">
+    </app-segmented-control>
+
+    @if (!paginaFatura) {
+    <section class="secondSection">
+        <app-consulta-fatura></app-consulta-fatura>
+    </section>
+    }
+    @if (paginaFatura) {
+    <section class="secondSection">
+        <app-small-card-section>
+            <app-small-card title="Receita Total Faturas" mainText="R$ {{ receitaTotal | number: '1.2-2'}}"
+                subtitle="{{paidInvoices}} faturas pagas" [icon]="DollarSign" color="green">
+            </app-small-card>
+            <app-small-card title="Valor Pendente" [icon]="BanknoteArrowDown" color="yellow"
+                mainText="R$ {{receitaPendente | number: '1.2-2'}}" subtitle="{{pendingInvoices}} faturas pendentes">
+            </app-small-card>
+            <app-small-card title="Valor em Atraso" [icon]="TriangleAlert" color="red"
+                mainText="R$ {{valorAtraso | number: '1.2-2'}}" subtitle="{{overdueInvoices}} faturas vencidas">
+            </app-small-card>
+            <app-small-card title="Receita Mensal" [icon]="TrendingUp" color="blue"
+                mainText="R$ {{receitaMensal | number: '1.2-2'}}" subtitle="{{currentMonth}} de {{currentYear}}">
+            </app-small-card>
+        </app-small-card-section>
+        <section class="secondSection">
+            <app-resumo-taxa-pagamentos [paid]="paidInvoices" [pending]="pendingInvoices"
+                [overdue]="overdueInvoices"></app-resumo-taxa-pagamentos>
+        </section>
+    </section>
+    }
+</div>

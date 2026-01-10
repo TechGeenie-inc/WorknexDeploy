@@ -1,0 +1,13 @@
+<section class="content">
+    <section class="card">
+        <p>Não é possível deletar! Esse membro ainda está cadastrado na(s) equipe(s): </p>
+        <ul>
+            @for (equipe of equipes; track equipe.nomeEquipe) {
+                <li>{{ equipe.nomeEquipe }} - {{ equipe.tarefa }}</li>
+            }
+        </ul>
+        <div class="actions">
+            <button mat-flat-button (click)="closeModal()" class="cancelar-botao">Fechar</button>
+        </div>
+    </section>
+</section>

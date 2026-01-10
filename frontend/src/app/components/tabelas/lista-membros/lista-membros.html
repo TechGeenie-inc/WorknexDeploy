@@ -1,0 +1,78 @@
+<div class="lista-membros">
+  <div class="selecionar-membros">
+    <div class="lista-membros-title">
+      <lucide-angular [img]="Users" [size]="20"></lucide-angular>
+      <h3>Selecionar membros</h3>
+    </div>
+    <button type="button" (click)="togglePesquisa()">
+      <lucide-angular [img]="Funnel" [size]="20"></lucide-angular>
+      Filtros
+    </button>
+  </div>
+  <div class="inside-content">
+    @if (pesquisaAberta) {
+    <div class="card-filter">
+      <div class="grid-filtro">
+        <div class="cargos-list">
+          <div class="label-title">
+            <lucide-angular [img]="Boxes" [size]="20"></lucide-angular>
+            <label>Funções</label>
+          </div>
+          <div class="search-input">
+            <mat-icon class="search-icon" fontIcon="search"></mat-icon>
+            <input [(ngModel)]="termoBusca" (ngModelChange)="buscaLive($event)" name="termoBusca" type="text"
+              placeholder="Busque pela função" />
+          </div>
+          <div class="cargos-button">
+            <button *ngFor="let f of funcoes" type="button" [class.ativo]="funcoesSelecionadas.includes(f.id!)"
+              (click)="toggleFuncao(f.id!)">
+              {{ f.nomeFuncao }}
+            </button>
+          </div>
+        </div>
+        <div class="disponibilidade-select">
+          <div class="label-title">
+            <lucide-angular [img]="Clock" [size]="20"></lucide-angular>
+            <label>Disponibilidade</label>
+          </div>
+          <select class="select" [(ngModel)]="filtroStatus" name="pesquisaStatus" (ngModelChange)="filtrarMembros()">
+            <option [ngValue]="undefined"> Todos </option>
+            <option [ngValue]="'ativo'"> Disponível </option>
+            <option [ngValue]="'inativo'"> Indisponível </option>
+          </select>
+        </div>
+        <div class="slider-valor">
+          <div class="label-title">
+            <lucide-angular [img]="DollarSign" [size]="20"></lucide-angular>
+            <label>Valor por hora: R$ {{minValor}} - R$ {{maxValor}}</label>
+          </div>
+          <div class="slider-custom">
+            <mat-slider [min]="0" [max]="500">
+              <input [(ngModel)]="minValor" matSliderStartThumb name="minValor" (change)="filtrarMembros()">
+              <input [(ngModel)]="maxValor" matSliderEndThumb name="maxValor" (change)="filtrarMembros()">
+            </mat-slider>
+          </div>
+        </div>
+        <div class="slider-nota">
+          <div class="label-title">
+            <lucide-angular [img]="Star" [size]="20"></lucide-angular>
+            <label>Nota mínima: {{minStar | number:'1.1-1'}} - {{maxStar | number:'1.1-1'}} </label>
+          </div>
+          <mat-slider min="0.0" max="5.0" step="0.1">
+            <input [(ngModel)]="minStar" name="minStar" matSliderStartThumb>
+            <input [(ngModel)]=" maxStar" name="maxStar" matSliderEndThumb>
+          </mat-slider>
+        </div>
+      </div>
+    </div>
+    }
+    <div class="mostra-membro">
+      <ng-container *ngFor="let membro of membros">
+        <app-mostra-membro [membro]="membro" [selected]="equipe.membrosIds?.includes(membro.id!) || false"
+          (selectedChange)="onToggleSelecao($event)" [ocupado]="isMembroOcupado(membro)" (dataChange)="onMembroDataChange($event)">
+        </app-mostra-membro>
+      </ng-container>
+    </div>
+
+  </div>
+</div>

@@ -1,0 +1,323 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Usuario {
+  id                String   @id @default(uuid())
+  nome              String
+  email             String   @unique
+  senhaHash         String
+  role              Role
+  permissions       Json
+  autenticacaoAtiva Boolean?
+
+  senhaTemporaria Boolean   @default(false)
+  senhaExpiraEm   DateTime?
+
+  isActive         Boolean   @default(true)
+  lastLogin        DateTime?
+  criadoEm         DateTime  @default(now())
+  atualizadoEm     DateTime  @updatedAt
+  twoFactorCode    String?
+  twoFactorExpires DateTime?
+
+  changeRequests ChangeRequest[]
+}
+
+enum Role {
+  adminMaster
+  admin
+  gerente
+  visualizador
+  personalizado
+}
+
+model Config {
+  id                Int     @id @default(1)
+  nomeDaEmpresa     String  @unique
+  email             String
+  website           String
+  contato           String
+  endereco          String
+  cnpj              String?
+  razaoSocial       String?
+  nomeFantasia      String?
+  inscricaoEstadual String?
+}
+
+model ConfigVisual {
+  id            Int     @id @default(1)
+  
+  pageBackground String?
+  titles         String?
+  text           String?
+  name           String?
+  borders        String?
+  cardBackground String?
+  cardAlt        String?
+
+  primaryButtonBackground    String?
+  primaryButtonText          String?
+  primaryButtonHover         String?
+  primaryButtonBorder        String?
+
+  secondaryButtonBackground  String?
+  secondaryButtonText        String?
+  secondaryButtonHover       String?
+  secondaryButtonBorder      String?
+
+  segmentedBg                String?
+  segmentedText              String?
+  segmentedAlt               String?
+  
+ 
+  atualizadoEm  DateTime @updatedAt
+}
+
+model ChangeRequest {
+  id         String     @id @default(uuid())
+  usuarioId  String
+  tipo       TipoChange
+  dadosNovos Json
+
+  tokenAprovacao String          @unique
+  expiraEm       DateTime
+  situacao       SituacaoRequest @default(pendente)
+
+  criadoEm DateTime @default(now())
+
+  usuario Usuario @relation(fields: [usuarioId], references: [id], onDelete: Cascade)
+}
+
+enum TipoChange {
+  info
+  password
+}
+
+enum SituacaoRequest {
+  pendente
+  aprovado
+  negado
+}
+
+model Cliente {
+  id          String  @id
+  tipoCliente String? @default("CNPJ")
+
+  razaoSocial       String?
+  cnpj              String?
+  inscricaoEstadual String?
+
+  nomeCompleto String?
+  cpf          String?
+
+  nomeFantasia     String?
+  contato          String?
+  email            String?
+  enderecoCompleto String?
+  cidade           String?
+  estado           String?
+  cep              String?
+
+  projetosTotal  Int      @default(0)
+  projetosAtivos Int      @default(0)
+  observacoes    String?
+  cadastro       DateTime @default(now())
+  isActive       Boolean  @default(true)
+
+  equipes Equipe[] @relation("ClienteEquipes")
+}
+
+model Membro {
+  id      String  @id
+  nome    String?
+  cpf     String?
+  contato String?
+
+  funcaoId String?
+
+  precoHora     Float          @default(0)
+  precoVenda    Float          @default(0)
+  tipoPagamento TipoPagamento?
+  chavePix      String?
+  bancoAgencia  String?
+  bancoConta    String?
+  bancoNome     String?
+  bancoTipo     TipoConta?
+
+  status   String? @default("inativo")
+  isActive Boolean @default(true)
+
+  participacao           ParticipacaoMembro[]
+  funcao                 Funcao?              @relation(fields: [funcaoId], references: [id])
+  equipes                Equipe[]             @relation("EquipeMembros")
+  fechamentosFinalizados FechamentoMembro[]
+}
+
+enum TipoPagamento {
+  pix
+  banco
+}
+
+enum TipoConta {
+  corrente
+  poupanca
+}
+
+model Funcao {
+  id         String   @id
+  nomeFuncao String?
+  isActive   Boolean  @default(true)
+  cadastro   DateTime @default(now())
+
+  membros Membro[]
+}
+
+model Equipe {
+  id                 String    @id
+  nomeEquipe         String?
+  clienteSelecionado String?
+  dataInicio         DateTime?
+  dataFinal          DateTime?
+  tarefa             String?
+  status             Status    @default(EmEspera)
+  isActive           Boolean   @default(true)
+
+  clienteId String?
+  cliente   Cliente? @relation("ClienteEquipes", fields: [clienteId], references: [id])
+
+  membros    Membro[]     @relation("EquipeMembros")
+  fechamento Fechamento[]
+  evento     Evento?
+
+  criadoEm            DateTime             @default(now())
+  atualizadoEm        DateTime             @updatedAt
+  participacaoMembros ParticipacaoMembro[]
+}
+
+enum Status {
+  Concluido
+  EmEspera
+  Impedido
+  EmAndamento
+}
+
+model ParticipacaoMembro {
+  id         String   @id @default(uuid())
+  equipeId   String
+  membroId   String
+  dataInicio DateTime
+  dataFim    DateTime
+
+  equipe Equipe @relation(fields: [equipeId], references: [id])
+  membro Membro @relation(fields: [membroId], references: [id])
+}
+
+model Fechamento {
+  id             String   @id
+  equipeId       String
+  dataFechamento DateTime @default(now())
+  horasTotais    Float    @default(0)
+  obs            String?
+  valorTotal     Float    @default(0)
+  status         Boolean  @default(false)
+  isActive       Boolean  @default(true)
+  export         Boolean  @default(false)
+
+  equipe          Equipe             @relation(fields: [equipeId], references: [id])
+  membrosFechados FechamentoMembro[]
+  fatura          Fatura[]
+
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+}
+
+model FechamentoMembro {
+  fechamentoId String
+  membroId     String
+
+  horasTrabalhadas Float @default(0)
+  horasExtras      Float @default(0)
+  adicional        Float @default(0)
+  diarias          Int   @default(0)
+  valorTotal       Float @default(0)
+  precoVenda       Float @default(0)
+
+  fechamento Fechamento @relation(fields: [fechamentoId], references: [id])
+  membro     Membro     @relation(fields: [membroId], references: [id])
+
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  @@id([fechamentoId, membroId])
+}
+
+model Fatura {
+  id             String          @id
+  friendlyId     String          @unique
+  fechamentoId   String
+  clienteNome    String?
+  valorTotal     Float?
+  vencimento     DateTime?
+  formaPagamento FormaPagamento?
+  status         StatusFatura    @default(pendente)
+  isActive       Boolean         @default(true)
+
+  fechamento Fechamento @relation(fields: [fechamentoId], references: [id])
+
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+}
+
+enum FormaPagamento {
+  pix
+  transferenciaBancaria
+  boletoBancario
+  cartaoDeCredito
+}
+
+enum StatusFatura {
+  pago
+  pendente
+  vencido
+}
+
+model Evento {
+  id       String    @id
+  title    String
+  start    DateTime
+  end      DateTime?
+  allDay   Boolean   @default(false)
+  isActive Boolean   @default(true)
+  equipeId String?   @unique
+  color    Json
+
+  criadoEm     DateTime @default(now())
+  atualizadoEm DateTime @updatedAt
+
+  equipe Equipe? @relation(fields: [equipeId], references: [id])
+}
+
+model Transacao {
+  id           String   @id
+  tipo         String
+  categoria    String?
+  subcategoria String?
+  desc         String?
+  valor        Float
+  faturaId     String?
+  data         DateTime @default(now())
+  recorrente   Boolean  @default(false)
+  isActive     Boolean  @default(true)
+}
+
+model Saldo {
+  id           Int      @id @default(1)
+  total        Float    @default(0)
+  atualizadoEm DateTime @default(now()) @updatedAt
+}

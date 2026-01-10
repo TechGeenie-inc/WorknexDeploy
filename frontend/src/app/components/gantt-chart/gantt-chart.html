@@ -1,0 +1,38 @@
+<div class="background">
+    <div class="content">
+        <section class="titleLine">
+            <lucide-angular class="icon" [size]="20" [img]="ChartGantt"></lucide-angular>
+            <h2>Cronograma de Projetos - Gráfico de Gantt</h2>
+        </section>
+        <section class="headerLine">
+            <h3>Projeto/Equipe</h3>
+            <h2>{{ viewDate | date:'MMMM De yyyy' | titlecase }}</h2>
+            <div class="previousNext">
+                <button class="buttonHoje" (click)="todayCalendarView()">
+                    <lucide-angular class="icon" [size]="18" [img]="Calendar"></lucide-angular>
+                    Hoje
+                </button>
+                <button (click)="previousCalendarView()">
+                    <lucide-angular class="icon" [size]="18" [img]="ChevronLeft"></lucide-angular>
+                </button>
+                <button (click)="nextCalendarView()">
+                    <lucide-angular class="icon" [size]="18" [img]="ChevronRight"></lucide-angular>
+                </button>
+            </div>
+        </section>
+        <div class="spacerLine"></div>
+        <div class="teamSlots">
+            @if (items.length == 0) {
+            <div class="noEvent">
+                <p>Não existem eventos para o mês selecionado.</p>
+            </div>
+            }
+            @for (item of items; track $index) {
+            <app-gantt-item [title]="item.title" [client]="item.client" [status]="item.status"
+                [startingDate]=item.startingDate [endingDate]=item.endingDate [selectedMonth]=selectedMonth
+                [selectedYear]=selectedYear [monthLength]="item.monthLength"></app-gantt-item>
+            }
+
+        </div>
+    </div>
+</div>

@@ -1,0 +1,245 @@
+.mat-mdc-card {
+    box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);
+    background-color: white;
+    border: .5px solid var(--borders, #e5e5e5);
+    padding: 12px;
+    padding-top: 4px;
+}
+
+.buttons {
+    display: flex;
+    gap: 5px;
+}
+
+.buttons button {
+    height: 30px;
+    background-color: white;
+    border: none;
+    border-radius: 4px;
+}
+
+.buttons button:hover {
+    background-color: rgba(201, 201, 201, 0.3);
+    cursor: pointer;
+}
+
+.search-input {
+    position: relative;
+    display: inline-block;
+}
+
+.search-input input {
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    width: 280px;
+    border-radius: 6px;
+    border: 1px solid var(--borders, #e5e5e5);
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 40px;
+    height: 16px;
+    font-size: 14px;
+}
+
+.search-input .search-icon {
+    position: absolute;
+    top: 50%;
+    left: 10px;
+    transform: translateY(-50%);
+    pointer-events: none;
+    color: gray;
+}
+
+.search-input input:focus {
+    outline: 4px solid #cccccc7e;
+}
+
+.search-input>.material-icons {
+    // Alterar tamanho icon
+    font-size: 23px;
+    line-height: -1;
+}
+
+.table {
+    margin: 16px;
+    overflow-x: auto;
+}
+
+.mat-mdc-table {
+    border: .5px solid var(--borders, #e5e5e5);
+    background-color: white;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.mat-mdc-header-cell {
+    border-bottom-color: var(--borders, #e5e5e5);
+}
+
+.mat-mdc-cell {
+    border-bottom-color: var(--borders, #e5e5e5);
+}
+
+.search-container {
+    display: flex;
+    flex-direction: row;
+    gap: 20px;
+}
+
+.mat-mdc-card-subtitle {
+    margin-bottom: 16px;
+    color: #7e7e7e;
+    font-weight: 400;
+}
+
+.status {
+    color: black;
+    padding: 2px;
+    border-radius: 6px;
+    background-color: #e5e5e5;
+    width: 80px;
+    text-align: center;
+}
+
+.ativo {
+    padding: 2px;
+    background-color: rgba(144, 238, 144, 0.2);
+    width: 80px;
+    border-radius: 8px;
+    text-align: center;
+    color: rgb(2, 83, 2);
+}
+.vencido {
+    padding: 2px;
+    background-color: rgba(238, 144, 144, 0.2);
+    width: 80px;
+    border-radius: 8px;
+    text-align: center;
+    color: red;
+}
+
+.fatura-flex {
+    display: flex;
+    flex-direction: row;
+    gap: 4px;
+    align-items: center;
+}
+
+.fatura-flex>.material-icons {
+    width: 15px;
+    font-size: 15px;
+    align-items: center;
+    display: flex;
+    justify-content: center;
+}
+
+.select {
+    width: fit-content;
+    padding-left: 12px;
+    padding-right: 12px;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    border-radius: 6px;
+    border: .5px solid var(--borders, #e5e5e5);
+    font-size: 14px;
+    height: 37px;
+}
+
+.select:hover {
+    cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  
+  .search-container {
+    flex-direction: column;
+    gap: 10px;
+    
+    .search-input {
+      width: 100%;
+      
+      input {
+        width: 100%;
+        box-sizing: border-box;
+      }
+      
+      .select {
+        width: 100%;
+        box-sizing: border-box;
+      }
+    }
+    
+    button {
+      width: 100%;
+      justify-content: center;
+    }
+  }
+
+  .table {
+    margin: 16px 0;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    
+    table {
+      min-width: 1200px;
+    }
+  }
+
+
+  .mat-column-fatura {
+    position: sticky;
+    left: 0;
+    background-color: white;
+    z-index: 10;
+    border-right: 1px solid var(--borders, #e0e0e0);
+    min-width: 100px; 
+    font-weight: 500;
+  }
+
+  .mat-column-acoes {
+    position: sticky;
+    right: 0;
+    background-color: white;
+    z-index: 10;
+    border-left: 1px solid var(--borders, #e0e0e0);
+    min-width: 100px; 
+    text-align: center;
+    
+    .buttons {
+      justify-content: center;
+    }
+  }
+  
+  th.mat-column-fatura, th.mat-column-acoes {
+    z-index: 11;
+    background-color: #f9f9f9;
+  }
+  
+  .mat-column-cliente {
+    min-width: 200px; 
+  
+  .mat-column-valor {
+    min-width: 140px;
+  }
+  
+  .mat-column-vencimento {
+    min-width: 140px;
+  }
+  
+  .mat-column-pagamento {
+    min-width: 180px; 
+  }
+  
+  .mat-column-status {
+    min-width: 120px;
+    text-align: center;
+    
+    .status {
+      margin: 0 auto;
+    }
+  }
+
+  .mat-mdc-cell, .mat-mdc-header-cell {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+}
+}

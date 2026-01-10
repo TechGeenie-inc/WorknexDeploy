@@ -1,0 +1,456 @@
+// Include theming for Angular Material with `mat.theme()`.
+// This Sass mixin will define CSS variables that are used for styling Angular Material
+// components according to the Material 3 design spec.
+// Learn more about theming and how to use it for your application's
+// custom components at https://material.angular.dev/guide/theming
+@use '@angular/material' as mat;
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
+
+html {
+  @include mat.theme(
+    (
+      color: (
+        primary: mat.$red-palette,
+        tertiary: mat.$blue-palette,
+      ),
+      typography: Roboto,
+      density: 0,
+    )
+  );
+}
+
+:root {
+  @include mat.slider-overrides((
+    active-track-color: black,
+    active-track-shape: 16px,
+    handle-color: white,
+    handle-height: 15px,
+    handle-width: 15px,
+    focus-handle-color: white,
+    focus-state-layer-color: none,
+    hover-handle-color: none,
+    with-overlap-handle-outline-color: black,
+    hover-state-layer-color: none,
+    inactive-track-color: #ccc,
+  ));
+}
+
+body {
+  // Default the application to a light color theme. This can be changed to
+  // `dark` to enable the dark color theme, or to `light dark` to defer to the
+  // user's system settings.
+  color-scheme: light;
+
+  // Set a default background, font and text colors for the application using
+  // Angular Material's system-level CSS variables. Learn more about these
+  // variables at https://material.angular.dev/guide/system-variables
+
+  color: var(--mat-sys-on-surface);
+  font: var(--mat-sys-body-medium);
+
+  // Reset the user agent margin.
+  margin: 0;
+}
+
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+  height: 100%;
+}
+
+body {
+  margin: 0;
+  font-family: 'Geist', sans-serif;
+}
+
+app-root {
+  display: flex;
+  height: 100%;
+  min-height: 100%;
+  overflow: hidden;
+  font-family: 'Geist', sans-serif;
+}
+//w: Alterações feitas para garantir que o tamanho da tela não gere um scroll extra, que não exibe nenhum conteúdo.
+
+.mat-mdc-table,
+.mat-mdc-cell,
+.mat-mdc-header-cell,
+select,
+input,
+.mat-mdc-card-title,
+.mat-mdc-card-header-text,
+.mat-mdc-card-subtitle,
+textarea {
+  font-family: 'Geist', sans-serif !important;
+}
+
+h1:not(.ignore-global-color h1), h2, h3, h4, h5, h6, .title, .cardTitle, .pop-up-title, .mat-mdc-card-title, .label-title, .title-card {
+  color: var(--titles-color, #201a19);
+}
+
+.page-container {
+  min-height: 100vh; /*O heihgt:100% estava fazendo certos elementos "grudarem" no fim da tela, usando 100vh o problema desaparece*/
+  box-sizing: border-box;
+}
+
+.card-content, .card, .card-filter{
+  background-color: var(--elements-background, #ffffff);
+}
+
+.mat-card-tile{
+  color: var(--titles-color, #201a19) !important;
+}
+
+lucide-angular{
+  display: flex;
+}
+
+mat-icon {
+  align-items: center;
+}
+
+.title {
+  text-align: center;
+  font-family: Arial, sans-serif;
+  font-size: 1.4rem;
+  padding-top: 22px;
+  padding-bottom: 22px;
+  border-bottom: none;
+  border-right: 1px solid var(--borders, #cccccc);;
+}
+
+h1 {
+  margin: 0;
+  font-size: 1.9rem;
+  line-height: 1.3;
+}
+
+p {
+  color: var(--text-color, #7e7e7e);
+  font-size: 1rem;
+}
+
+.subtitulo {
+  margin-top: 30px;
+  margin-bottom: 30px;
+}
+
+.secondSection {
+  margin-top: 30px;
+}
+
+.bigTableSection {
+  margin-bottom: 5vh;
+}
+
+.mat-mdc-unelevated-button:not(:disabled) {
+  border-radius: 8px;
+  height: 34px;
+  font-family: 'Geist', sans-serif;
+  // Assumindo primary como default para botões normais (Adicionar/Salvar)
+  background-color: var(--primary-btn-bg, #171717) !important;
+  color: var(--primary-btn-text, #ffffff) !important;
+  border: 1px solid var(--primary-btn-border, #eaeaea) !important;
+
+  &:hover {
+    background-color: var(--primary-btn-hover, #333333) !important;
+  }
+}
+
+.mat-mdc-unelevated-button.cancelar-botao:not(:disabled),
+.mat-mdc-unelevated-button.cancel-button:not(:disabled),
+.cancelar-botao,
+.cancel-button {
+    background-color: var(--sec-btn-bg, #ffffff) !important; 
+    color: var(--sec-btn-text, #171717) !important;
+    border-radius: 5px !important;
+    border: .5px solid var(--sec-btn-border, #ccc) !important;
+
+    &:hover {
+        background-color: var(--sec-btn-hover, #c9c9c9) !important;
+    }
+}
+
+// Botões de Ação Primária Específicos (caso use classes como .button ou .primary-button)
+.button, .primary-button {
+  background-color: var(--primary-btn-bg, #171717) !important;
+  color: var(--primary-btn-text, #ffffff) !important;
+  border: 1px solid var(--primary-btn-border, #eaeaea) !important;
+
+  &:hover {
+    background-color: var(--primary-btn-hover, #333333) !important;
+  }
+}
+
+.material-icons.color_green {
+  color: #00ff00;
+}
+
+.material-icons.color_white {
+  color: #ffffff;
+}
+
+.cardBackground{ 
+  background-color: var(--elements-background, #ffffff);
+  align-items: center;
+  border-radius: 0.75rem; 
+  box-shadow: 0 2px 3px 0 rgba(0, 0, 0, 0.1);//
+  border: 0.5px solid var(--borders, #e5e5e5);
+  overflow: hidden;
+  margin-bottom: 30px;
+  box-sizing: border-box;
+}
+
+.mat-mdc-card-subtitle{
+    color: var(--text-color, #7e7e7e) !important;
+}
+.mat-mdc-card{
+  background-color: var(--elements-background, #ffffff) !important;
+}
+
+.mat-mdc-card-subtitle{
+    color: var(--text-color, #7e7e7e) !important;
+}
+
+
+.configContent {
+  padding: 25px;
+  justify-content: center;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  display: flex;
+  flex-direction: column;
+  h2{
+    font-size: 1rem;
+    margin-bottom: 0;
+    margin-top: 6px;
+  }
+  p{
+    margin: 0px;
+  }
+}
+
+.configInput {
+    border: 0.5px solid var(--borders, #e5e5e5);;
+    border-radius: 8px;
+    height: 32px;
+}
+
+.cardTitle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+}
+
+.formSection{
+    display: flex;
+    flex-direction: column;
+    margin-top: 10px;
+    margin-bottom: 18px;
+    gap: 8px;
+    p{
+    color: black;
+    }
+    input {
+      font-size: 14px;
+      padding-left: 10px;
+    }
+}
+
+.labelInput {
+    display: flex;
+    flex-direction: column;
+}
+
+.buttonSection {
+    display: flex;
+    justify-content: flex-end;    
+}
+
+.h3Option {
+    font-weight: 500;
+    margin-bottom: 0;
+}
+
+.optionLine{
+    display: flex;
+    flex-direction: row;
+    align-items: baseline;
+    justify-content: space-between;
+}
+
+.subtitulo {
+  display: flex;
+  justify-content: flex-start;
+}
+
+.csvButton {
+  font-family: 'Geist', sans-serif;
+  font-weight: 500;
+  display: flex;
+  align-items: center;
+  font-size: 0.9rem;
+  gap: 2px;
+  padding: 16px;
+  border-radius: 12px;
+  width: fit-content;
+  height: 38px;
+  text-align: start;
+  transition: 0.3s ease;
+  
+  // Usando variaveis de secondary/export theme com !important para garantir override
+  background-color: var(--sec-btn-bg, #ffffff) !important;
+  border: 1px solid var(--sec-btn-border, #e5e5e5) !important;
+  color: var(--sec-btn-text, #000000) !important;
+  
+  box-shadow: 0 1px 6px rgba(0, 0, 0, 0.15);
+  cursor: pointer;
+  
+  .icon,
+  p {
+    color: var(--sec-btn-text, #000000) !important;
+  }
+  
+  &:hover {
+    background-color: var(--sec-btn-hover, #e5e5e5) !important;
+  }
+}
+
+// Estilização Global dos Paginadores
+.paginador {
+    display: flex;
+    justify-content: end;
+    margin: 16px;
+}
+.paginador span {
+    margin-left: 10px;
+    margin-right: 10px;
+}
+.paginador button:hover {
+    cursor: pointer;
+}
+
+.paginador button {
+    text-align: center;
+    display: table-cell;
+    vertical-align: middle;
+    border-radius: 5px;
+    padding-bottom: 3px;
+    transition: 0.3s ease;
+    background-color: var(--sec-btn-bg, #ffffff) !important;
+    color: var(--sec-btn-text, #171717) !important;
+    border: .5px solid var(--sec-btn-border, #dfdfdf) !important;
+    box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+}
+.paginador button:hover:not([disabled]) {
+    cursor: pointer;
+    background-color: var(--sec-btn-hover, #e5e5e5) !important;
+}
+.paginador button[disabled] {
+    opacity: 0.5;
+    cursor: default;
+}
+
+.page-control {
+  margin-top: 2vh;;
+}
+
+.segmentedControlSection {
+    display: flex;
+    justify-content: space-around;
+}
+
+.twoLineTitle {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 4px;
+    justify-content: space-between;
+}
+.doubleLabel {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+}
+
+.search-input .clear-search {
+  position: absolute;
+  top: 50%;
+  right: 8px;
+  transform: translateY(-50%);
+  border: none;
+  background: transparent;
+  padding: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  color: #7e7e7e;
+}
+
+.search-input .clear-search mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.search-input .clear-search:hover {
+  color: #3f3f3f;
+}
+
+.pop-up-title{
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  lucide-angular {
+    background-color: transparent;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: 0.2;
+    :hover {
+      color: #818181;
+    }
+  }
+}
+
+/* Global Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #cccccc;
+  border-radius: 4px;
+}
+
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #cccccc transparent;
+}
+
+// Global Background Override for Tables and Inputs
+.mat-mdc-table,
+table,
+input,
+select:not(.status),
+textarea {
+    background-color: var(--elements-alt, #ffffff) !important;
+}
+
+// Global Override for Table Action Buttons (Lucide Icons)
+.buttons button {
+    background-color: transparent !important;
+    border: none !important;
+    
+    // Ensure hover effect remains visible (assuming it adds a background or opacity)
+    &:hover {
+         background-color: rgba(201, 201, 201, 0.3) !important;
+    }
+}
