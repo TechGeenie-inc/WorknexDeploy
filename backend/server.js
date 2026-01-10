@@ -39,19 +39,23 @@ app.use('/change-request', changeRequestRoutes);
 app.use('/sistema', sistemaRoutes);
 app.use('/config-visual', configVisualRoutes);
 
-async function testarConexao() {
-    try {
-        await prisma.$connect();
-        console.log("Conexao estabelecida com sucesso");
-    } catch (error) {
-        console.error("Foi impossivel estabelecer a conexao", error);
-    } finally {
-        await prisma.$disconnect();
-    }
-}
+// async function testarConexao() {
+//     try {
+//         await prisma.$connect();
+//         console.log("Conexao estabelecida com sucesso");
+//     } catch (error) {
+//         console.error("Foi impossivel estabelecer a conexao", error);
+//     } finally {
+//         await prisma.$disconnect();
+//     }
+// }
 
+// testarConexao();
 
-testarConexao();
+prisma.$connect()
+    .then(() => console.log("Conexao estabelecida com sucesso"))
+    .catch(err => console.error("Erro ao conectar no banco", err));
+
 
 const PORT = process.env.PORT || 3000;
 
