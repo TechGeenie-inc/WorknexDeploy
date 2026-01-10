@@ -26,12 +26,12 @@ export const AuthController = {
                 try {
                     await enviarEmail(
                         email,
-                        "Bem vindo ao sistema trampoWork!",
+                        "Bem vindo ao sistema Worknex!",
                         `<div style="font-family: Arial; padding: 20px;">
                         <h2>Bem-vindo, ${nome}!</h2>
-                        <p>Seu acesso ao sistema TrampoWork acaba de ser liberado.</p>
+                        <p>Seu acesso ao sistema Worknex acaba de ser liberado.</p>
                         <p>Qualquer dúvida, estamos à disposição!</p>
-                        <p><strong>Equipe TrampoWork</strong></p>
+                        <p><strong>Equipe Worknex</strong></p>
                         <p>A senha escolhida para você foi <strong>${senha}</strong></p>
                         <p><strong>Essa senha precisa ser alterada! Ela deixará de ser válida em 7 dias.<strong><p>
                         </div>`

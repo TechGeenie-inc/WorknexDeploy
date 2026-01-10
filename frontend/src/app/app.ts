@@ -39,7 +39,7 @@ const DESKTOP_BREAKPOINT = 1024;
   ],
 })
 export class App implements OnInit {
-  protected readonly title = signal('trampoWork');
+  protected readonly title = signal('Worknex');
   private service = inject(AuthService)
   private configService = inject(ConfigService);
   perm = inject(PermissionService);
