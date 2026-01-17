@@ -108,10 +108,7 @@ export const AuthController = {
                             `<p>Olá, ${usuario.nome}!</p>
                             <p>Um novo login em sua conta 
                             foi realizado em 
-                            ${new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })}, 
-                            no endereço: ${localizacao?.city ?? 'Não disponível'}, 
-                            ${localizacao?.regionName ?? 'Não disponível'}, 
-                            ${localizacao?.country ?? 'Não disponível'}</p>`
+                            ${new Date().toLocaleString('pt-BR', { timeZone: 'America/Sao_Paulo' })}</p>`
                         );
                     } catch (e) {
                         console.error("Erro ao enviar email de login: ", e);
