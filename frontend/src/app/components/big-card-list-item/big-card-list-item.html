@@ -2,14 +2,21 @@
     <div class="content">
         <div class="line">
             <h2 class="h2Title">{{title}}</h2>
-            .
-            <p [ngClass]="{
-                'title2Green': title2.startsWith('+'),
-                'title2Red': title2.startsWith('-'),
-                'title2': !title2.startsWith('+') && !title2.startsWith('-')
-            }">
+
+            @if (title2.startsWith('+')) {
+            <p class="title2Green">
+                + {{ title2Number | number:'1.2-2' }}
+            </p>
+            } @else if (title2.startsWith('-')) {
+            <p class="title2Red">
+                - {{ title2Number | number:'1.2-2' }}
+            </p>
+            } @else {
+            <p class="title2">
                 {{title2}}
             </p>
+            }
+
         </div>
         <div class="line">
             <p class="subtitle">{{truncatedSubtitle}}</p>
