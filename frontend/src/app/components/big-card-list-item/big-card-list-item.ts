@@ -15,6 +15,7 @@ export class BigCardListItem implements OnInit {
 
   subtitleLimit = 40;
   title2Number: number = 0;
+
   ngOnInit(): void {
     if (this.title2.charAt(0) == "+" || this.title2.charAt(0) == "-") {
       this.title2Number = this.parseToNumber(this.title2)
