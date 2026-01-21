@@ -98,6 +98,7 @@ export const AuthController = {
                     email: usuario.email
                 });
             } else {
+                
                 await UsuarioRepo.atualizar(usuario.id, { lastLogin: new Date() });
                 (async () => {
                     try {
