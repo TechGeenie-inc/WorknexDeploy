@@ -85,7 +85,7 @@ export class AddCliente {
         this.dialogRef?.close();
       },
       error: (err) => {
-        this.toast.show("Erro ao salvar cliente");
+        this.toast.show(`Erro ao salvar cliente: ${err.error?.erro}`);
       }
     });
   }
@@ -118,7 +118,7 @@ export class AddCliente {
         this.dialogRef?.close();
       },
       error: (err) => {
-        this.toast.show("Erro ao atualizar cliente");
+        this.toast.show(`Erro ao atualizar cliente: ${err.error?.erro}`);
       }
     });
   }

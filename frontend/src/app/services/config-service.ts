@@ -22,7 +22,7 @@ export class ConfigService {
       next: (config) => this.configSubject.next(config),
       error: err => {
         if (err.status !== 401) {
-          this.toast.show("Erro ao carregar configurações");
+          this.toast.show(`Erro ao carregar configurações: ${err.error?.erro}`);
         }
       },
     });

@@ -63,9 +63,7 @@ export class ConsultaCliente implements OnInit {
         this.aplicarBusca();
       },
       error: (err) => {
-        if (err.status !== 403) {
-          this.toast.show("Erro ao carregar lista de clientes");
-        }
+        this.toast.show(`Erro ao carregar lista de clientes: ${err.error?.erro}`);
       }
     });
   }
@@ -96,7 +94,7 @@ export class ConsultaCliente implements OnInit {
         this.service.carregarClientes();
       },
       error: (err) => {
-        this.toast.show("Erro ao recarregar lista");
+        this.toast.show(`Erro ao recarregar lista: ${err.error?.erro}`);
       }
     });
   }
@@ -124,7 +122,7 @@ export class ConsultaCliente implements OnInit {
         ref.closed.subscribe(() => this.recarregarLista());
       },
       error: (err) => {
-        this.toast.show("Erro ao editar cliente");
+        this.toast.show(`Erro ao editar cliente: ${err.error?.erro}`);
       }
     });
   }

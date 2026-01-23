@@ -9,7 +9,7 @@ export const ConfigVisualController = {
             res.json(config);
         } catch (e) {
             console.error("Erro ao carregar visual", e);
-            res.status(500).json({ error: "Erro ao carregar configurações visuais" });
+            res.status(500).json({ erro: "Erro ao carregar configurações visuais" });
         }
     },
 
@@ -20,7 +20,7 @@ export const ConfigVisualController = {
             res.json(atualizado);
         } catch (e) {
             console.error("Erro ao atualizar visual", e);
-            res.status(500).json({ error: "Erro ao atualizar configurações visuais" });
+            res.status(500).json({ erro: "Erro ao atualizar configurações visuais" });
         }
     }
 }

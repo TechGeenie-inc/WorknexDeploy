@@ -153,7 +153,7 @@ export class ListaMembros implements OnInit, OnChanges {
         this.funcoes = lista.filter(f => f.isActive !== false);
       },
       error: (err) => {
-        this.toast.show("Erro ao buscar por função");
+        this.toast.show(`Erro ao buscar por função: ${err.error?.erro}`);
       }
     });
   }

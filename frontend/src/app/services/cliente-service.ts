@@ -79,7 +79,7 @@ export class ClienteService {
           this.toast.show("Sem permissão para deletar cliente");
           return;
         }
-        this.toast.show("Erro ao deletar cliente");
+        this.toast.show(`Erro ao deletar cliente: ${err.error?.erro}`);
       },
     });
   }
@@ -98,7 +98,7 @@ export class ClienteService {
       next: (clientes) => this.clienteSubject.next(clientes),
       error: (err) => {
         if (err.status !== 403) {
-          this.toast.show("Erro ao carregar clientes");
+          this.toast.show(`Erro ao carregar clientes: ${err.error?.erro}`);
         }
       }
     });

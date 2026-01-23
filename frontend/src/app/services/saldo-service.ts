@@ -30,7 +30,7 @@ export class SaldoService {
       },
       error: err => {
         if (err.status !== 403) {
-          this.toast.show("Erro ao limpar dados");
+          this.toast.show(`Erro ao limpar dados: ${err.error?.erro}`);
         }
       }
     });

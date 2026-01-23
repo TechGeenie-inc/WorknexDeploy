@@ -157,7 +157,7 @@ export class EquipeService {
         if (err.status === 403) {
           this.toast.show("Sem permissão para atualizar status da equipe");
         } else {
-          this.toast.show("Erro ao atualizar status da equipe");
+          this.toast.show(`Erro ao atualizar status da equipe: ${err.error?.erro}`);
         }
       }
     });
@@ -188,7 +188,7 @@ export class EquipeService {
           return;
         }
 
-        this.toast.show("Erro ao deletar equipe");
+        this.toast.show(`Erro ao deletar equipe: ${err.error?.erro}`);
       }
     });
 
@@ -208,7 +208,7 @@ export class EquipeService {
       next: (equipes) => this.equipeSubject.next(equipes),
       error: (err) => {
         if (err.status !== 403) {
-          this.toast.show("Erro ao carregar equipes");
+          this.toast.show(`Erro ao carregar equipes: ${err.error?.erro}`);
         }
       }
     });

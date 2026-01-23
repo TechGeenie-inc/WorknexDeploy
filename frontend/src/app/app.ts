@@ -13,6 +13,8 @@ import { ConfigService } from './services/config-service';
 import { ConfigVisualService } from './services/config-visual-service';
 import { PermissionService } from './services/permission-service';
 import { ToastService } from './services/toast-service';
+import { Router, NavigationEnd } from '@angular/router';
+import { filter } from 'rxjs';
 
 const DESKTOP_BREAKPOINT = 1024;
 
@@ -51,6 +53,9 @@ export class App implements OnInit {
   sidebarOpen = true;
   mode: MatDrawerMode = 'side';
 
+  private router = inject(Router);
+  isLoginPage = false;
+
   constructor() {
     this.getUserName();
     this.getBusinessName();
@@ -58,6 +63,13 @@ export class App implements OnInit {
 
   ngOnInit(): void {
     this.updateResponsiveState();
+
+    this.router.events.pipe(filter(e => e instanceof NavigationEnd)).subscribe(() => {
+      this.isLoginPage = this.router.url.startsWith('/login');
+    });
+
+    this.isLoginPage = this.router.url.startsWith('/login');
+
     this.configVisualService.getVisualConfig().subscribe({
       next: (colors) => {
         this.configVisualService.applyColors(colors);
@@ -75,12 +87,6 @@ export class App implements OnInit {
     const isDesktop = window.innerWidth >= DESKTOP_BREAKPOINT;
     this.sidebarOpen = isDesktop;
     this.mode = isDesktop ? 'side' : 'over';
-  }
-
-  @ViewChild('loginActive', { read: RouterLinkActive }) loginActive?: RouterLinkActive;
-
-  get isLoginPage(): boolean {
-    return this.loginActive?.isActive ?? false;
   }
 
   readonly ChartColumn = ChartColumn;
@@ -103,7 +109,7 @@ export class App implements OnInit {
       },
       error: err => {
         if (err.status !== 401) {
-          this.toast.show("Erro ao conseguir nome de usuário");
+          this.toast.show(`Erro ao conseguir nome de usuário: ${err.error?.erro}`);
         }
       }
     });
@@ -115,7 +121,7 @@ export class App implements OnInit {
         this.nomeEmpresa = config?.nomeDaEmpresa ?? 'Sua Empresa';
       },
       error: err => {
-        this.toast.show("Erro ao conseguir nome da empresa");
+        this.toast.show(`Erro ao conseguir nome da empresa: ${err.error?.erro}`);
       }
     })
   }

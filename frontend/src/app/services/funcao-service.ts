@@ -91,7 +91,7 @@ export class FuncaoService {
         if (err.status === 403) {
           this.toast.show("Sem permissão para deletar funções");
         } else {
-          this.toast.show("Erro ao deletar função");
+          this.toast.show(`Erro ao deletar função: ${err.error?.erro}`);
         }
       }
     });
@@ -111,7 +111,7 @@ export class FuncaoService {
       next: (funcoes) => this.funcaoSubject.next(funcoes),
       error: (err) => {
         if (err.status !== 403) {
-          this.toast.show("Erro ao carregar funções");
+          this.toast.show(`Erro ao carregar funções: ${err.error?.erro}`);
         }
       }
     });

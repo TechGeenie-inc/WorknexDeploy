@@ -52,7 +52,7 @@ export class ConfigVisual implements OnInit {
         this.configVisualService.applyColors(this.colors);
       },
       error: (err) => {
-        this.toast.show("Erro ao salvar visual.");
+        this.toast.show(`Erro ao salvar visual: ${err.error?.erro}`);
         console.error(err);
       }
     });

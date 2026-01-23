@@ -107,7 +107,6 @@ export class PgDashboard implements OnInit {
     });
 
     this.serviceTransacao.transacao$.subscribe((transacoes) => {
-      console.log('TRANSACOES RAW:', transacoes);
       this.atualizarSaldos();
       const hoje = new Date();
       hoje.setHours(23, 59, 59, 999);
@@ -157,7 +156,7 @@ export class PgDashboard implements OnInit {
         if (err.status === 403) {
           return;
         }
-        this.toast.show("Erro ao obter informações de saldo");
+        this.toast.show(`Erro ao obter informações de saldo: ${err.error?.erro}`);
       }
     });
   }

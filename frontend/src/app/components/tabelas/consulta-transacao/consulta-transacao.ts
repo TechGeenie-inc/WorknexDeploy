@@ -74,7 +74,7 @@ export class ConsultaTransacao implements OnInit {
       },
       error: err => {
         if (err.status !== 403) {
-          this.toast.show("Erro ao carregar lista de transações");
+          this.toast.show(`Erro ao carregar lista de transações: ${err.error?.erro}`);
         }
       }
     });
@@ -102,7 +102,7 @@ export class ConsultaTransacao implements OnInit {
         ref.closed.subscribe(() => { this.recarregarLista(); })
       },
       error: err => {
-        this.toast.show("Erro ao editar transação");
+        this.toast.show(`Erro ao editar transação: ${err.error?.erro}`);
       }
     })
   }

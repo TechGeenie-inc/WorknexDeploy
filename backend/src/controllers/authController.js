@@ -1,8 +1,9 @@
 import bcrypt from "bcrypt";
 import jwt from "jsonwebtoken";
+import crypto from "crypto";
 import { UsuarioRepo } from "../repositories/usuarioRepo.js";
 import { enviarEmail } from "../utils/email.js";
-import { obterLoc } from "../middlewares/obterLoc.js";
+import { ChangeRequestRepo } from '../repositories/changeRequestRepo.js';
 
 export const AuthController = {
     async signup(req, res) {
@@ -43,7 +44,7 @@ export const AuthController = {
 
             return res.json(usuario);
         } catch (e) {
-            return res.status(500).json({ error: e.message });
+            return res.status(500).json({ erro: e.message });
         }
     },
 
@@ -51,18 +52,10 @@ export const AuthController = {
         try {
             const { email, senha } = req.body;
             const usuario = await UsuarioRepo.buscarPorEmail(email);
-            if (!usuario) return res.status(401).json({ error: "Usuario nao encontrado" });
+            if (!usuario) return res.status(401).json({ erro: "Usuário ou senha inválidos" });
 
             const ok = await bcrypt.compare(senha, usuario.senhaHash);
-            if (!ok) return res.status(401).json({ error: "Senha inválida" });
-
-            if (usuario.senhaTemporaria) {
-                if (!usuario.senhaExpiraEm || usuario.senhaExpiraEm < new Date()) {
-                    return res.status(403).json({
-                        error: "Sua senha temporária expirou. Solicite uma nova ao administrador."
-                    });
-                }
-            }
+            if (!ok) return res.status(401).json({ erro: "Usuário ou senha inválidos" });
 
             if (!usuario.isActive) return res.status(403).json({ erro: "Usuário inativo. Contate o administrador" });
 
@@ -98,11 +91,10 @@ export const AuthController = {
                     email: usuario.email
                 });
             } else {
-                
+
                 await UsuarioRepo.atualizar(usuario.id, { lastLogin: new Date() });
                 (async () => {
                     try {
-                        const localizacao = await obterLoc(req.ip);
                         await enviarEmail(
                             usuario.email,
                             "Novo login detectado",
@@ -126,7 +118,7 @@ export const AuthController = {
             }
 
         } catch (e) {
-            return res.status(500).json({ error: e.message });
+            return res.status(500).json({ erro: e.message });
         }
     },
 
@@ -359,6 +351,174 @@ export const AuthController = {
         }
     },
 
+    async changeMyPassword(req, res) {
+        try {
+            const usuarioId = req.usuario.id;
+            const { oldPassword, newPassword } = req.body;
+
+            if (!oldPassword || !newPassword) {
+                return res.status(400).json({ erro: "Senha antiga e nova são obrigatórios." });
+            }
+
+            const usuario = await UsuarioRepo.buscarPorId(usuarioId);
+            if (!usuario) return res.status(404).json({ erro: "Usuário não encontrado." });
+
+            const ok = await bcrypt.compare(oldPassword, usuario.senhaHash);
+            if (!ok) return res.status(401).json({ erro: "Senha atual inválida." });
+
+            const hash = await bcrypt.hash(newPassword, 10);
+
+            await UsuarioRepo.atualizar(usuarioId, {
+                senhaHash: hash,
+                senhaTemporaria: false,
+                senhaExpiraEm: null
+            });
+
+            (async () => {
+                try {
+                    await enviarEmail(
+                        usuario.email,
+                        "Senha alterada",
+                        `<p>Olá, ${usuario.nome}!</p>
+                        <p>Sua senha foi alterada corretamente!</p>`
+                    );
+                } catch (e) {
+                    console.error("Erro ao enviar email de aviso de troca de senha:", e);
+                }
+            })();
+
+            return res.json({ sucesso: true, mensagem: "Senha alterada com sucesso." });
+        } catch (e) {
+            console.error("Erro ao alterar minha senha:", e);
+            return res.status(500).json({ erro: "Erro interno ao alterar senha." });
+        }
+    },
+
+    async changeMyData(req, res) {
+        try {
+            const usuarioId = req.usuario.id;
+            const { nome, email } = req.body;
+
+            if (!nome && !email) {
+                return res.status(400).json({ erro: "Envie ao menos nome ou email." });
+            }
+
+            const usuario = await UsuarioRepo.buscarPorId(usuarioId);
+            if (!usuario) return res.status(404).json({ erro: "Usuário não encontrado." });
+
+            const updateData = {};
+            if (nome) updateData.nome = nome;
+
+            const cleanEmail = typeof email === "string" ? email.trim().toLowerCase() : null;
+            if (cleanEmail) {
+                const jaExiste = await UsuarioRepo.buscarPorEmail(cleanEmail);
+                if (jaExiste && jaExiste.id !== usuarioId) {
+                    return res.status(409).json({ erro: "Esse e-mail já está em uso." });
+                }
+                updateData.email = email;
+            }
+
+            const atualizado = await UsuarioRepo.atualizar(usuarioId, updateData);
+
+            return res.json({
+                sucesso: true,
+                usuario: {
+                    id: atualizado.id,
+                    nome: atualizado.nome,
+                    email: atualizado.email,
+                    role: atualizado.role,
+                    permissions: atualizado.permissions,
+                    autenticacaoAtiva: atualizado.autenticacaoAtiva
+                }
+            });
+
+        } catch (e) {
+            console.error("Erro ao alterar meus dados:", e);
+            return res.status(500).json({ erro: "Erro interno ao atualizar dados." });
+        }
+    },
+
+    async forgotPassword(req, res) {
+        try {
+            const { email } = req.body;
+            if (!email) return res.status(400).json({ erro: "Email é obrigatório." });
+
+            const usuario = await UsuarioRepo.buscarPorEmail(email);
+
+            if (!usuario) {
+                return res.json({ sucesso: true, mensagem: "Se existir uma conta, enviaremos instruções por e-mail." });
+            }
+
+            await ChangeRequestRepo.negateOldRequests(usuario.id);
+
+            const token = crypto.randomBytes(32).toString("hex");
+            const expiraEm = new Date(Date.now() + 30 * 60 * 1000);
+
+            await ChangeRequestRepo.criar(usuario.id, "password", {}, token, expiraEm);
+
+            const resetLink = `${process.env.FRONT_URL}?token=${token}`;
+
+            (async () => {
+                try {
+                    await enviarEmail(
+                        usuario.email,
+                        "Redefinição de senha",
+                        `<p>Olá, ${usuario.nome}.</p>
+                        <p>Para redefinir sua senha, clique no link abaixo (válido por 5 minutos):</p>
+                        <p><a href="${resetLink}">Redefinir senha</a></p>
+                        <p>Se você não solicitou isso, ignore este e-mail.</p>`
+                    );
+                } catch (e) {
+                    console.error("Erro ao enviar email de reset:", e);
+                }
+            })();
+
+            return res.json({ sucesso: true, mensagem: "Se existir uma conta, enviaremos instruções por e-mail." });
+        } catch (e) {
+            console.error("Erro forgotPassword:", e);
+            return res.status(500).json({ erro: "Erro interno." });
+        }
+    },
+
+    async resetPassword(req, res) {
+        try {
+            const { token, newPassword } = req.body;
+            if (!token || !newPassword) {
+                return res.status(400).json({ erro: "Token e newPassword são obrigatórios." });
+            }
+
+            const reqSenha = await ChangeRequestRepo.buscarPorToken(token);
+            if (!reqSenha) return res.status(400).json({ erro: "Token inválido." });
+
+            if (reqSenha.tipo !== "password") {
+                return res.status(400).json({ erro: "Token inválido para troca de senha." });
+            }
+
+            if (reqSenha.situacao !== "pendente") {
+                return res.status(400).json({ erro: "Token já utilizado ou inválido." });
+            }
+
+            if (reqSenha.expiraEm < new Date()) {
+                await ChangeRequestRepo.negar(reqSenha.id);
+                return res.status(400).json({ erro: "Token expirado. Solicite novamente." });
+            }
+
+            const hash = await bcrypt.hash(newPassword, 10);
+
+            await UsuarioRepo.atualizar(reqSenha.usuarioId, {
+                senhaHash: hash,
+                senhaTemporaria: false,
+                senhaExpiraEm: null
+            });
+
+            await ChangeRequestRepo.aprovar(reqSenha.id);
+
+            return res.json({ sucesso: true, mensagem: "Senha redefinida com sucesso." });
+        } catch (e) {
+            console.error("Erro resetPassword:", e);
+            return res.status(500).json({ erro: "Erro interno." });
+        }
+    },
 
 
 }

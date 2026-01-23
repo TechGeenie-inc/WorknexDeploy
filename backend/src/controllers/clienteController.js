@@ -124,7 +124,7 @@ export const ClienteController = {
       pdfDoc.end();
     } catch (e) {
       console.error(e);
-      res.status(500).json({ error: "Erro ao exportar XLS" });
+      res.status(500).json({ erro: "Erro ao exportar XLS" });
     }
 
   }

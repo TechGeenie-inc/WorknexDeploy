@@ -94,7 +94,7 @@ export class HistoricoFechamento implements OnInit {
       },
       error: err => {
         if (err.status !== 403) {
-          this.toast.show("Erro ao carregar fechamentos");
+          this.toast.show(`Erro ao carregar fechamentos: ${err.error?.erro}`);
         }
       }
     });
@@ -145,7 +145,7 @@ export class HistoricoFechamento implements OnInit {
         this.resetExport();
       },
       error: err => {
-        this.toast.show("Erro ao encontrar fechamentos");
+        this.toast.show(`Erro ao encontrar fechamentos: ${err.error?.erro}`);
       }
     })
   }
@@ -184,7 +184,7 @@ export class HistoricoFechamento implements OnInit {
         this.resetExport();
       },
       error: err => {
-        this.toast.show("Erro ao encontrar fechamento");
+        this.toast.show(`Erro ao encontrar fechamento: ${err.error?.erro}`);
       }
     });
   }

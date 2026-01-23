@@ -46,7 +46,7 @@ export class AddFuncao {
         this.dialogRef?.close();
       },
       error: err => {
-        this.toast.show("Erro ao adicionar função");
+        this.toast.show(`Erro ao adicionar função: ${err.error?.erro}`);
       }
     });
   }
@@ -60,7 +60,7 @@ export class AddFuncao {
         this.serviceMembro.carregarMembros();
       },
       error: err => {
-        this.toast.show("Erro ao atualizar função");
+        this.toast.show(`Erro ao atualizar função: ${err.error?.erro}`);
       }
     });
   }

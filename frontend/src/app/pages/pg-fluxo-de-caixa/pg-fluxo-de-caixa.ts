@@ -73,7 +73,7 @@ export class PgFluxoDeCaixa {
         if (err.status === 403) {
           return;
         }
-        this.toast.show("Erro ao obter informações de saldo");
+        this.toast.show(`Erro ao obter informações de saldo: ${err.error?.erro}`);
       }
     });
   }
@@ -96,7 +96,7 @@ export class PgFluxoDeCaixa {
         this.tabela!.listaTransacaoCompleta = transacoes;
       },
       error: err => {
-        this.toast.show("Erro ao filtrar transações");
+        this.toast.show(`Erro ao filtrar transações: ${err.error?.erro}`);
       }
     })
   }
@@ -108,7 +108,7 @@ export class PgFluxoDeCaixa {
         this.tabela!.listaTransacaoCompleta = transacoes;
       },
       error: err => {
-        this.toast.show("Erro ao filtrar transações");
+        this.toast.show(`Erro ao filtrar transações: ${err.error?.erro}`);
       }
     });
   }
@@ -120,7 +120,7 @@ export class PgFluxoDeCaixa {
         this.tabela!.listaTransacaoCompleta = transacoes;
       },
       error: err => {
-        this.toast.show("Erro ao filtrar transações");
+        this.toast.show(`Erro ao filtrar transações: ${err.error?.erro}`);
       }
     });;
   }

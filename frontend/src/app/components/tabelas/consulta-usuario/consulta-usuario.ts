@@ -65,7 +65,7 @@ export class ConsultaUsuario implements OnInit {
       },
       error: err => {
         if (err.status !== 403) {
-          this.toast.show("Erro ao carregar lista de usuários");
+          this.toast.show(`Erro ao carregar lista de usuários: ${err.error?.erro}`);
         }
       }
     });
@@ -88,7 +88,7 @@ export class ConsultaUsuario implements OnInit {
       },
       error: err => {
         if (err.status !== 403) {
-          this.toast.show("Erro ao carregar lista de usuários");
+          this.toast.show(`Erro ao carregar lista de usuários: ${err.error?.erro}`);
         }
       }
     });
@@ -114,7 +114,7 @@ export class ConsultaUsuario implements OnInit {
             this.toast.show("Sem permissão para desativar usuário");
             return;
           }
-          this.toast.show("Erro ao desativar usuário");
+          this.toast.show(`Erro ao desativar usuário: ${err.error?.erro}`);
           console.error(err);
         }
       });
@@ -127,7 +127,7 @@ export class ConsultaUsuario implements OnInit {
           this.service.carregarUsuarios();
         },
         error: err => {
-          this.toast.show("Erro ao reativar usuário");
+          this.toast.show(`Erro ao reativar usuário: ${err.error?.erro}`);
         }
       });
     }
@@ -152,7 +152,7 @@ export class ConsultaUsuario implements OnInit {
         if (err.status === 403) {
           this.toast.show("Sem permissão para editar usuários");
         } else {
-          this.toast.show("Erro ao atualizar usuário");
+          this.toast.show(`Erro ao atualizar usuário: ${err.error?.erro}`);
         }
       }
     });

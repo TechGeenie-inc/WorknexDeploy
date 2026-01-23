@@ -46,7 +46,7 @@ export class ConfigDatabase {
         if (err.status === 403) {
           this.toast.show("Sem permissão para realizar a importação de dados");
         } else {
-          this.toast.show("Erro ao importar dados");
+          this.toast.show(`Erro ao importar dados: ${err.error?.erro}`);
         }
       }
     })
@@ -66,7 +66,7 @@ export class ConfigDatabase {
         if (err.status === 403) {
           this.toast.show("Sem permissão para realizar a exportação de dados");
         } else {
-          this.toast.show("Erro ao exportar dados");
+          this.toast.show(`Erro ao exportar dados: ${err.error?.erro}`);
         }
       }
     })
@@ -84,7 +84,7 @@ export class ConfigDatabase {
         if (err.status === 403) {
           this.toast.show("Sem permissão para realizar a limpeza de dados");
         } else {
-          this.toast.show("Erro ao limpar dados");
+          this.toast.show(`Erro ao limpar dados: ${err.error?.erro}`);
         }
       }
     })

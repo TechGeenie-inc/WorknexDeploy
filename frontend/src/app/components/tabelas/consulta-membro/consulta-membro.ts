@@ -79,7 +79,7 @@ export class ConsultaMembro implements OnInit {
       },
       error: (err) => {
         if (err.status !== 403) {
-          this.toast.show("Erro ao carregar lista de membros");
+          this.toast.show(`Erro ao carregar lista de membros: ${err.error?.erro}`);
         }
       }
     });
@@ -120,7 +120,7 @@ export class ConsultaMembro implements OnInit {
         ref.closed.subscribe(() => this.recarregarLista());
       },
       error: (err) => {
-        this.toast.show("Erro ao editar membro");
+        this.toast.show(`Erro ao editar membro: ${err.error?.erro}`);
       }
     });
   }

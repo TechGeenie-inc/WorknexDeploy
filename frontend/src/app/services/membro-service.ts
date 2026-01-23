@@ -108,7 +108,7 @@ export class MembroService {
           return;
         }
 
-        this.toast.show("Erro ao atualizar status do membro");
+        this.toast.show(`Erro ao atualizar status do membro: ${err.error?.erro}`);
       }
     });
   }
@@ -142,7 +142,7 @@ export class MembroService {
             if (err.status === 403) {
               this.toast.show("Sem permissão para deletar membro");
             } else {
-              this.toast.show("Erro ao deletar membro");
+              this.toast.show(`Erro ao deletar membro: ${err.error?.erro}`);
             }
           },
         });
@@ -151,7 +151,7 @@ export class MembroService {
         if (err.status === 403) {
           this.toast.show("Erro ao verificar em quais equipes o membro está");
         } else {
-          this.toast.show("Erro ao deletar membro");
+          this.toast.show(`Erro ao deletar membro: ${err.error?.erro}`);
         }
       }
     });
@@ -172,7 +172,7 @@ export class MembroService {
       next: (membros) => this.membrosSubject.next(membros),
       error: (err) => {
         if (err.status !== 403) {
-          this.toast.show("Erro ao carregar membros");
+          this.toast.show(`Erro ao carregar membros: ${err.error?.erro}`);
         }
       }
     });

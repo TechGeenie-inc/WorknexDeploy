@@ -20,13 +20,14 @@ import { ToastService } from '../../services/toast-service';
 export class ConfigAccountInfo {
 
   private authService = inject(AuthService);
-  private requestService = inject(ChangeRequestService);
   private toast = inject(ToastService);
   readonly User = User;
   readonly Save = Save;
   readonly PencilRuler = PencilRuler;
 
   isEditing: boolean = false;
+  nome: string = "";
+  email: string = "";
 
   user: Usuario = Usuario.newUsuario();
 
@@ -43,21 +44,13 @@ export class ConfigAccountInfo {
   }
 
   saveInfo() {
-    this.requestService.solicitar("info", {
-      nome: this.user.nome,
-      email: this.user.email
-    }).subscribe({
+    this.authService.changeMyData(this.user.nome!, this.user.email!).subscribe({
       next: (res) => {
         this.isEditing = false;
-        this.toast.show("Solicitação de alteração de informação pessoal enviada");
+        this.toast.show("Informações alteradas com sucesso!");
       },
       error: (err) => {
-        if (err.status === 403) {
-          this.toast.show("Sem permissão para realizar o ato desejado");
-          return;
-        } else {
-          this.toast.show("Erro ao atualizar as informações");
-        }
+        this.toast.show(`Erro ao alterar informações: ${err.error?.erro}`);
       }
     })
   }

@@ -141,7 +141,7 @@ export class FaturaService {
           this.toast.show("Sem permissão para deletar fatura");
           return;
         }
-        this.toast.show("Erro ao deletar fatura");
+        this.toast.show(`Erro ao deletar fatura: ${err.error?.erro}`);
       }
     });
   }
@@ -160,7 +160,7 @@ export class FaturaService {
       next: (faturas) => this.faturaSubject.next(faturas),
       error: (err) => {
         if (err.status !== 403) {
-          this.toast.show("Erro ao carregar faturas");
+          this.toast.show(`Erro ao carregar faturas: ${err.error?.erro}`);
         }
       }
     });

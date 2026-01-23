@@ -3,7 +3,6 @@ import { Key, LucideAngularModule, Save } from 'lucide-angular';
 import { MainButton } from '../main-button/main-button';
 import { FormsModule } from '@angular/forms';
 import { AuthService } from '../../services/auth-service';
-import { ChangeRequestService } from '../../services/change-request-service';
 import { ToastService } from '../../services/toast-service';
 
 @Component({
@@ -17,7 +16,7 @@ import { ToastService } from '../../services/toast-service';
   styleUrl: './config-password.scss'
 })
 export class ConfigPassword {
-  private requestService = inject(ChangeRequestService);
+  private authService = inject(AuthService);
   private toast = inject(ToastService);
   readonly Key = Key;
   readonly Save = Save;
@@ -33,22 +32,19 @@ export class ConfigPassword {
     }
 
     if (this.newPassword !== this.confirmNewPassword) {
-      this.toast.show("Senhas não coincidem");
+      this.toast.show("Senhas novas não coincidem");
       return;
     }
-    this.requestService.solicitar("password", {
-      oldPassword: this.oldPassword,
-      novaSenha: this.newPassword
-    }).subscribe({
-      next: (res) => {
-        this.toast.show("Solicitação de atualização enviada");
 
+    this.authService.changeMyPassword(this.oldPassword, this.newPassword).subscribe({
+      next: (res) => {
+        this.toast.show("Senha alterada com sucesso!");
         this.oldPassword = "";
         this.newPassword = "";
         this.confirmNewPassword = "";
       },
       error: (err) => {
-        this.toast.show("Erro ao atualizar senha");
+        this.toast.show(`Erro ao atualizar senha: ${err.error?.erro}`);
       }
     })
   }

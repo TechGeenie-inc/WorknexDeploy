@@ -127,7 +127,7 @@ export class TransacaoService {
         if (err.status) {
           this.toast.show("Sem permissão para deletar transações");
         } else {
-          this.toast.show("Erro ao deletar transação");
+          this.toast.show(`Erro ao deletar transação: ${err.error?.erro}`);
         }
       }
     });
@@ -147,7 +147,7 @@ export class TransacaoService {
       next: (transacoes) => this.transacaoSubject.next(transacoes),
       error: (err) => {
         if (err.status !== 403) {
-          this.toast.show("Erro ao carregar transações");
+          this.toast.show(`Erro ao carregar transações: ${err.error?.erro}`);
         }
       }
     });

@@ -107,7 +107,7 @@ export class AddFechamento implements OnInit {
         this.atualizarValorTotalFechamento();
       },
       error: (err) => {
-        this.toast.show("Erro ao buscar a equipe selecionada");
+        this.toast.show(`Erro ao buscar a equipe selecionada: ${err.error?.erro}`);
       }
     });
   }
@@ -165,7 +165,7 @@ export class AddFechamento implements OnInit {
         this.service.carregarFechamentos();
       },
       error: err => {
-        this.toast.show("Erro ao salvar fechamento");
+        this.toast.show(`Erro ao salvar fechamento: ${err.error?.erro}`);
       }
     });
   }

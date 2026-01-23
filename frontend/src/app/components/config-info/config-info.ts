@@ -62,7 +62,7 @@ export class ConfigInfo {
         if (err.status === 403) {
           this.toast.show("Sem permissão para atualizar configurações");
         } else {
-          this.toast.show("Erro ao atualizar configurações");
+          this.toast.show(`Erro ao atualizar configurações, ${err.error?.erro}`);
         }
       }
     })
