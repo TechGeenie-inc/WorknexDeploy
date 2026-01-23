@@ -66,7 +66,7 @@ export class AddEvent {
         this.dialogRef?.close();
       },
       error: err => {
-        this.toast.show("Erro ao salvar evento");
+        this.toast.show(`Erro ao salvar evento: ${err.error?.erro}`);
       }
     });
   }
@@ -82,7 +82,7 @@ export class AddEvent {
         this.dialogRef?.close();
       },
       error: err => {
-        this.toast.show("Erro ao atualizar evento");
+        this.toast.show(`Erro ao atualizar evento: ${err.error?.erro}`);
       }
     })
   }

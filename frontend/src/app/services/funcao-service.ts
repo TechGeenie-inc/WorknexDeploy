@@ -15,7 +15,7 @@ export class FuncaoService {
   constructor(private http: HttpClient, private toast: ToastService) {
     this.carregarFuncoes();
   };
-  apiUrl = 'https://worknexdeploy-production.up.railway.app/funcoes';
+  apiUrl = 'http://localhost:3000/funcoes';
   funcaoEmEdicao?: Funcao;
   funcaoEmDelete?: Funcao;
 
@@ -91,7 +91,7 @@ export class FuncaoService {
         if (err.status === 403) {
           this.toast.show("Sem permissão para deletar funções");
         } else {
-          this.toast.show("Erro ao deletar função");
+          this.toast.show(`Erro ao deletar função: ${err.error?.erro}`);
         }
       }
     });
@@ -111,7 +111,7 @@ export class FuncaoService {
       next: (funcoes) => this.funcaoSubject.next(funcoes),
       error: (err) => {
         if (err.status !== 403) {
-          this.toast.show("Erro ao carregar funções");
+          this.toast.show(`Erro ao carregar funções: ${err.error?.erro}`);
         }
       }
     });

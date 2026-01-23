@@ -58,7 +58,7 @@ export class AddTransacao {
         this.dialogRef.close();
       },
       error: err => {
-        this.toast.show("Erro ao salvar transação");
+        this.toast.show(`Erro ao salvar transação: ${err.error?.erro}`);
       }
     });
   }
@@ -71,7 +71,7 @@ export class AddTransacao {
         this.dialogRef.close();
       },
       error: err => {
-        this.toast.show("Erro ao atualizar a transação");
+        this.toast.show(`Erro ao atualizar a transação: ${err.error?.erro}`);
       }
     })
   }

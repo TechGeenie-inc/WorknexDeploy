@@ -9,7 +9,7 @@ import { ToastService } from './toast-service';
 export class SaldoService {
   static REPO_CAIXA = "_CAIXA";
 
-  private apiUrl = 'https://worknexdeploy-production.up.railway.app/saldo';
+  private apiUrl = 'http://localhost:3000/saldo';
 
   private saldoSubject =  new BehaviorSubject<number>(0);
   saldo$ = this.saldoSubject.asObservable();
@@ -30,7 +30,7 @@ export class SaldoService {
       },
       error: err => {
         if (err.status !== 403) {
-          this.toast.show("Erro ao limpar dados");
+          this.toast.show(`Erro ao limpar dados: ${err.error?.erro}`);
         }
       }
     });

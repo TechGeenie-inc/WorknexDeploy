@@ -6,7 +6,7 @@ import { BehaviorSubject, tap } from 'rxjs';
   providedIn: 'root'
 })
 export class ChangeRequestService {
-  apiUrl = "https://worknexdeploy-production.up.railway.app/change-request";
+  apiUrl = "http://localhost:3000/change-request";
 
   private pendentesSubject = new BehaviorSubject<any[]>([]);
   pendentes$ = this.pendentesSubject.asObservable();

@@ -78,7 +78,7 @@ export class AddUser {
         this.closeModal();
       },
       error: err => {
-        this.toast.show("Erro ao adicionar usuário");
+        this.toast.show(`Erro ao adicionar usuário: ${err.error?.erro}`);
       }
     })
   }
@@ -90,7 +90,7 @@ export class AddUser {
         this.dialogRef?.close();
       },
       error: (err) => {
-        this.toast.show("Erro ao atualizar usuário");
+        this.toast.show(`Erro ao atualizar usuário: ${err.error?.erro}`);
       }
     });
   }

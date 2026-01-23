@@ -65,7 +65,7 @@ export class ConsultaFuncao implements OnInit {
       },
       error: (err) => {
         if (err.status !== 403) {
-          this.toast.show("Erro ao carregar lista de funções");
+          this.toast.show(`Erro ao carregar lista de funções: ${err.error?.erro}`);
         }
       }
     });
@@ -96,7 +96,7 @@ export class ConsultaFuncao implements OnInit {
         this.aplicarBusca();
       },
       error: err => {
-        this.toast.show("Erro ao listar funções");
+        this.toast.show(`Erro ao listar funções: ${err.error?.erro}`);
       }
     });
   }
@@ -134,7 +134,7 @@ export class ConsultaFuncao implements OnInit {
         ref.closed.subscribe(() => this.recarregarLista());
       },
       error: err => {
-        this.toast.show("Erro ao editar função");
+        this.toast.show(`Erro ao editar função: ${err.error?.erro}`);
       }
     });
   }

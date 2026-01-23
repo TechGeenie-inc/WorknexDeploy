@@ -86,7 +86,7 @@ export class ConsultaFatura implements OnInit {
         this.atualizarLista();
       },
       error: err => {
-        this.toast.show("Erro ao recarregar lista de faturas");
+        this.toast.show(`Erro ao recarregar lista de faturas: ${err.error?.erro}`);
       }
     })
   }
@@ -122,7 +122,7 @@ export class ConsultaFatura implements OnInit {
         ref.closed.subscribe(() => { this.recarregarLista(); });
       },
       error: err => {
-        this.toast.show("Erro ao editar fatura");
+        this.toast.show(`Erro ao editar fatura: ${err.error?.erro}`);
       }
     })
   }
@@ -147,7 +147,7 @@ export class ConsultaFatura implements OnInit {
         if (err.status === 403) {
           this.toast.show('Sem permissão para atualizar status da fatura');
         } else {
-          this.toast.show('Erro ao atualizar status da fatura');
+          this.toast.show(`Erro ao atualizar status da fatura: ${err.error?.erro}`);
         }
       }
     });

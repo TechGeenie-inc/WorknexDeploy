@@ -1,4 +1,3 @@
-import { Dialog } from '@angular/cdk/dialog';
 import { CommonModule } from '@angular/common';
 import { Component, DOCUMENT, inject, Renderer2 } from '@angular/core';
 import { FormsModule } from '@angular/forms';
@@ -8,7 +7,10 @@ import { MainButton } from '../../components/main-button/main-button';
 import { Usuario } from '../../components/popUps/add-user/usuario';
 import { AuthService, LoginResponse } from '../../services/auth-service';
 import { ToastService } from '../../services/toast-service';
+import { ActivatedRoute, Router } from '@angular/router';
 
+
+type LoginMode = 'login' | '2fa' | 'forgot' | 'reset';
 @Component({
   selector: 'app-pg-login',
   imports: [
@@ -25,39 +27,85 @@ export class PgLogin {
   user: Usuario = Usuario.newUsuario();
 
   service = inject(AuthService);
-  dialog = inject(Dialog);
   private toast = inject(ToastService);
-  email2FA = '';
-  etapa2FA = false;
-  codigo2FA = '';
 
   private renderer = inject(Renderer2);
   private document = inject(DOCUMENT);
 
+  private route = inject(ActivatedRoute);
+  private router = inject(Router);
+
   readonly Building = Building2;
+
+  mode: LoginMode = 'login';
+
+  email2FA = '';
+  codigo2FA = '';
+
+  emailForgot = ''
+  tokenReset = ''
+  newPassword = ''
+  confirmNewPassword = ''
+
 
   ngOnInit(): void {
     this.renderer.addClass(this.document.body, 'page-login');
+
+    this.route.queryParamMap.subscribe(params => {
+      const token = params.get('token');
+      if (token) {
+        this.tokenReset = token;
+        this.mode = 'reset';
+      } 
+
+      this.router.navigate([], {
+        queryParams: { token: null },
+        queryParamsHandling: 'merge',
+        replaceUrl: true
+      })
+    });
   }
 
   ngOnDestroy(): void {
     this.renderer.removeClass(this.document.body, 'page-login');
   }
 
+  goLogin() {
+    this.mode = 'login';
+    this.codigo2FA = '';
+    this.email2FA = '';
+
+    this.router.navigate([], { queryParams: { token: null }, queryParamsHandling: 'merge' });
+    this.tokenReset = '';
+    this.newPassword = '';
+    this.confirmNewPassword = '';
+  }
+
+  goForgot() {
+    this.mode = 'forgot';
+    this.emailForgot = this.user.email || '';
+  }
+
   login() {
     this.service.login(this.user).subscribe({
       next: (res: LoginResponse) => {
+
         if (res.token) {
           window.location.href = "/";
-        } else if (res.etapa === '2FA') {
-          this.etapa2FA = true;
-          this.email2FA = res.email!;
-        } else {
-          this.toast.show("Erro ao verificar Login");
+          return;
         }
+
+        if (res.etapa === '2FA') {
+          this.mode = '2fa';
+          this.email2FA = res.email!;
+          return;
+        }
+
+        this.toast.show("Erro ao verificar Login");
+
       },
       error: err => {
-        this.toast.show("Erro ao realizar login");
+        this.toast.show(`Erro ao realizar login: ${err.error?.erro}`);
       }
     });
   }
@@ -68,13 +116,62 @@ export class PgLogin {
         if (res.token) {
           localStorage.setItem('AUTH_TOKEN', res.token);
           window.location.href = "/";
-        } else {
-          this.toast.show("Código de autenticação de dois fatores inválido");
+          return;
         }
+
+        this.toast.show("Código de autenticação de dois fatores inválido");
+
       },
       error: err => {
         this.toast.show("Erro ao verificar código de autenticação de dois fatores");
       }
-    })
+    });
   }
+
+  sendResetMail() {
+    if (!this.emailForgot) {
+      this.toast.show("Digite seu e-mail");
+      return;
+    }
+
+    this.service.forgotPassword(this.emailForgot).subscribe({
+      next: () => {
+        this.toast.show("Se o email informado estiver cadastrado, as instruções serão enviadas para ele.");
+        this.goLogin();
+      },
+      error: (err) => {
+        this.toast.show(`Erro ao enviar e-mail de recuperação: ${err.error?.erro}`);
+      }
+    });
+  }
+
+  resetPassword() {
+    if (!this.tokenReset) {
+      this.toast.show("Token inválido.");
+      this.goLogin();
+      return;
+    }
+
+    if (!this.newPassword || !this.confirmNewPassword) {
+      this.toast.show("Preencha todos os campos");
+      return;
+    }
+
+    if (this.newPassword !== this.confirmNewPassword) {
+      this.toast.show("Senhas não coincidem");
+      return;
+    }
+
+    this.service.resetPassword(this.tokenReset, this.newPassword).subscribe({
+      next: () => {
+        this.toast.show("Senha redefinida com sucesso! Faça login.");
+        this.goLogin();
+      },
+      error: (err) => {
+        this.toast.show(`Erro ao redefinir senha: ${err.error?.erro}`);
+      }
+    });
+  }
+
 }
+

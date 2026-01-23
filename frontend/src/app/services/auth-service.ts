@@ -14,7 +14,7 @@ export interface LoginResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  apiUrl = "https://worknexdeploy-production.up.railway.app/auth";
+  apiUrl = "http://localhost:3000/auth";
 
   usuarioEmEdicao?: Usuario;
   usuarioEmDelete?: Usuario;
@@ -112,7 +112,7 @@ export class AuthService {
           return;
         }
 
-        this.toast.show("Erro ao deletar usuário");
+        this.toast.show(`Erro ao deletar usuário: ${err.error?.erro}`);
       }
     });;
   }
@@ -131,7 +131,7 @@ export class AuthService {
         if (err.status === 401 || err.status === 403) {
           return;
         }
-        this.toast.show("Erro ao carregar usuários");
+        this.toast.show(`Erro ao carregar usuários: ${err.error?.erro}`);
       }
     });
   }
@@ -142,5 +142,21 @@ export class AuthService {
 
   atualizar2FA(user: Usuario) {
     return this.http.put(`${this.apiUrl}/toggle2fa`, user);
+  }
+
+  changeMyPassword(oldPassword: string, newPassword: string) {
+    return this.http.patch(`${this.apiUrl}/me/password`, { oldPassword, newPassword })
+  }
+
+  changeMyData(nome: string, email: string) {
+    return this.http.patch(`${this.apiUrl}/me`, { nome, email });
+  }
+
+  forgotPassword(email: string) {
+    return this.http.post(`${this.apiUrl}/forgot-password`, { email });
+  }
+
+  resetPassword(token: string, newPassword: string) {
+    return this.http.post(`${this.apiUrl}/reset-password`, { token, newPassword });
   }
 }

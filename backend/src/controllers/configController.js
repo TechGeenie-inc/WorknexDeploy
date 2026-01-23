@@ -7,7 +7,7 @@ export const ConfigController = {
             res.json(config);
         } catch (e) {
             console.error("Erro ao carregar configuracoes, ", e);
-            res.status(500).json({ error: "Erro ao carregar configuracoes" });
+            res.status(500).json({ erro: "Erro ao carregar configuracoes" });
         }
     },
 

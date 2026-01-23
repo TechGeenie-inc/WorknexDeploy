@@ -18,7 +18,7 @@ export class FechamentoService {
   constructor(private http: HttpClient, private toast: ToastService) {
     this.carregarFechamentos();
   };
-  apiUrl = 'https://worknexdeploy-production.up.railway.app/fechamentos';
+  apiUrl = 'http://localhost:3000/fechamentos';
   fechamentoEmEdicao?: Fechamento;
   fechamentoSelecionado?: Fechamento;
   fechamentoEmDelete?: Fechamento;
@@ -109,7 +109,7 @@ export class FechamentoService {
           return;
         }
 
-        this.toast.show("Erro ao atualizar status do fechamento");
+        this.toast.show(`Erro ao atualizar status do fechamento: ${err.error?.erro}`);
       }
     });
   }
@@ -137,7 +137,7 @@ export class FechamentoService {
           return;
         }
 
-        this.toast.show("Erro ao deletar fechamento");
+        this.toast.show(`Erro ao deletar fechamento: ${err.error?.erro}`);
       }
     });
   }
@@ -152,7 +152,7 @@ export class FechamentoService {
       next: (fechamentos) => this.fechamentoSubject.next(fechamentos),
       error: (err) => {
         if (err.status !== 403) {
-          this.toast.show("Erro ao carregar fechamentos");
+          this.toast.show(`Erro ao carregar fechamentos: ${err.error?.erro}`);
         }
       }
     });

@@ -9,6 +9,8 @@ router.post('/signup', auth, checkPermission("configuracoes", "create"), AuthCon
 router.post('/login', AuthController.login);
 router.get('/me', auth, AuthController.me);
 router.get('/check-email', AuthController.checkEmail);
+router.post('/forgot-password', AuthController.forgotPassword);
+router.post('/reset-password', AuthController.resetPassword);
 
 router.put('/toggle2fa', auth, AuthController.toggle2FA);
 router.post('/verificar2fa', AuthController.verificar2FA);
@@ -17,6 +19,8 @@ router.put('/reativar/:id', auth, checkPermission("configuracoes", "edit"), Auth
 router.get('/:id', auth, checkPermission("configuracoes", "view"), AuthController.buscarPorId);
 router.get('/', auth, checkPermission("configuracoes", "view"), AuthController.listar);
 router.put('/:id', auth, checkPermission("configuracoes", "edit"), AuthController.atualizar);
+router.patch('/me/password', auth, AuthController.changeMyPassword);
+router.patch('/me', auth, AuthController.changeMyData);
 router.delete('/desativar/:id', auth, checkPermission("configuracoes", "delete"), AuthController.desativar);
 router.delete('/:id', auth, checkPermission("configuracoes", "delete"), AuthController.deletar);
 

@@ -86,7 +86,7 @@ export class ConsultaEquipe implements OnInit {
       },
       error: err => {
         if (err.status !== 403) {
-          this.toast.show("Erro ao carregar lista de equipes");
+          this.toast.show(`Erro ao carregar lista de equipes: ${err.error?.erro}`);
         }
       }
     })
@@ -122,7 +122,7 @@ export class ConsultaEquipe implements OnInit {
         ref.closed.subscribe(() => { this.recarregarLista(); });
       },
       error: err => {
-        this.toast.show("Erro ao editar a equipe");
+        this.toast.show(`Erro ao editar a equipe: ${err.error?.erro}`);
       }
     });
   }
@@ -137,7 +137,7 @@ export class ConsultaEquipe implements OnInit {
         });
       },
       error: err => {
-        this.toast.show("Erro ao econtrar a equipe");
+        this.toast.show(`Erro ao econtrar a equipe: ${err.error?.erro}`);
       }
     });
   }

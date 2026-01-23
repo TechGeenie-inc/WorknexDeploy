@@ -96,7 +96,7 @@ export class AddMember implements OnInit {
           this.toast.show("Erro ao salvar membro, por favor preencha a função");
           return;
         }
-        this.toast.show("Erro ao salvar membro");
+        this.toast.show(`Erro ao salvar membro: ${err.error?.erro}`);
       }
     });
   }
@@ -109,7 +109,7 @@ export class AddMember implements OnInit {
         this.service.carregarMembros();
       },
       error: (err) => {
-        this.toast.show("Erro ao atualizar membro");
+        this.toast.show(`Erro ao atualizar membro: ${err.error?.erro}`);
       }
     });
   }

@@ -28,10 +28,10 @@ export class ConfigSecurity implements OnInit {
     this.service.atualizar2FA(this.usuario).subscribe({
       next: () => {
         this.service.getLoggedUser().subscribe();
+        this.toast.show("Autenticação de dois fatores atualizada com sucesso!")
       },
       error: (err) => {
-        this.toast.show("Erro ao ativar/desativar autenticação de dois fatores");
-        console.error(err);
+        this.toast.show(`Erro ao ativar/desativar autenticação de dois fatores, ${err.error?.erro}`);
       }
     });
   }

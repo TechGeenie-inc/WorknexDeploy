@@ -73,7 +73,7 @@ export class AddFatura implements OnInit {
         this.mostrarDetalhes = true;
       },
       error: err => {
-        this.toast.show("Erro ao selecionar o fechamento");
+        this.toast.show(`Erro ao selecionar o fechamento: ${err.error?.erro}`);
       },
     });
   }
@@ -85,7 +85,7 @@ export class AddFatura implements OnInit {
         this.service.carregarFaturas();
       },
       error: err => {
-        this.toast.show("Erro ao salvar a fatura");
+        this.toast.show(`Erro ao salvar a fatura: ${err.error?.erro}`);
       }
     });
   }
@@ -99,7 +99,7 @@ export class AddFatura implements OnInit {
         this.service.carregarFaturas();
       },
       error: err => {
-        this.toast.show("Erro ao atualizar a fatura");
+        this.toast.show(`Erro ao atualizar a fatura: ${err.error?.erro}`);
       }
     });
   }

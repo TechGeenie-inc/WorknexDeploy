@@ -8,7 +8,7 @@ import { ToastService } from './toast-service';
   providedIn: 'root'
 })
 export class ConfigService {
-  apiUrl = "https://worknexdeploy-production.up.railway.app/config";
+  apiUrl = "http://localhost:3000/config";
 
   constructor(private http: HttpClient, private toast: ToastService) {
     this.carregarConfig();
@@ -22,7 +22,7 @@ export class ConfigService {
       next: (config) => this.configSubject.next(config),
       error: err => {
         if (err.status !== 401) {
-          this.toast.show("Erro ao carregar configurações");
+          this.toast.show(`Erro ao carregar configurações: ${err.error?.erro}`);
         }
       },
     });

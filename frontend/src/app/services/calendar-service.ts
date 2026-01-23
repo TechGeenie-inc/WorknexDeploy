@@ -19,7 +19,7 @@ export class CalendarService {
   constructor(private http: HttpClient, private toast: ToastService) {
     this.carregarEventos();
   };
-  apiUrl = 'https://worknexdeploy-production.up.railway.app/eventos';
+  apiUrl = 'http://localhost:3000/eventos';
   eventoEmEdicao?: Evento;
   eventoEmDelete?: Evento;
 
@@ -131,7 +131,7 @@ export class CalendarService {
     this.http.delete(`${this.apiUrl}/${evento.id}`).subscribe({
       next: () => this.carregarEventos(),
       error: err => {
-        this.toast.show("Erro ao deletar evento");
+        this.toast.show(`Erro ao deletar evento: ${err.error?.erro}`);
       },
     });
   }
@@ -164,9 +164,7 @@ export class CalendarService {
         this.calendarSubject.next(eventosConvertidos);
       },
       error: (err) => {
-        if (err.status !== 403) {
-          this.toast.show("Erro ao carregar eventos");
-        }
+        this.toast.show(`Erro ao carregar eventos: ${err.error?.erro}`);
       }
     });
   }

@@ -70,7 +70,7 @@ export class AddEquipe implements OnInit {
           this.atualizando = true;
         },
         error: (err) => {
-          this.toast.show("Erro ao buscar equipe");
+          this.toast.show(`Erro ao buscar equipe: ${err.error?.erro}`);
         }
       });
     }
@@ -101,7 +101,7 @@ export class AddEquipe implements OnInit {
           this.toast.show(`Impossível criar equipe sem membros`);
           return;
         }
-        this.toast.show(`Erro ao criar equipe`);
+        this.toast.show(`Erro ao criar equipe: ${err.error?.erro}`);
       },
     });
     this.calendarService.criarEventoDaEquipe(this.equipe);
@@ -122,7 +122,7 @@ export class AddEquipe implements OnInit {
         this.dialogRef?.close();
       },
       error: err => {
-        this.toast.show("Erro ao atualizar a equipe");
+        this.toast.show(`Erro ao atualizar a equipe: ${err.error?.erro}`);
       }
     });
   }
