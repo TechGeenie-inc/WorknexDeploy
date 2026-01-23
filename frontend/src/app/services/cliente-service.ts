@@ -15,7 +15,7 @@ export class ClienteService {
   constructor(private http: HttpClient, private toast: ToastService) {
     this.carregarClientes();
   };
-  apiUrl = 'http://localhost:3000/clientes';
+  apiUrl = 'https://worknexdeploy-production.up.railway.app/clientes';
   clienteEmEdicao?: Cliente;
   clienteEmDelete?: Cliente;
 

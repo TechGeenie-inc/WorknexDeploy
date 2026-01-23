@@ -14,7 +14,7 @@ export interface LoginResponse {
   providedIn: 'root'
 })
 export class AuthService {
-  apiUrl = "http://localhost:3000/auth";
+  apiUrl = "https://worknexdeploy-production.up.railway.app/auth";
 
   usuarioEmEdicao?: Usuario;
   usuarioEmDelete?: Usuario;

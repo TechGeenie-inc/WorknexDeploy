@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
   providedIn: 'root'
 })
 export class SistemaService {
-  apiUrl = "http://localhost:3000/sistema";
+  apiUrl = "https://worknexdeploy-production.up.railway.app/sistema";
 
   constructor(private http: HttpClient) {}
 

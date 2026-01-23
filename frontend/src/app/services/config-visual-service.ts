@@ -6,7 +6,7 @@ import { Colors } from '../components/config-visual/colors';
     providedIn: 'root'
 })
 export class ConfigVisualService {
-    private apiUrl = "http://localhost:3000/config-visual";
+    private apiUrl = "https://worknexdeploy-production.up.railway.app/config-visual";
 
     constructor(private http: HttpClient) { }
 

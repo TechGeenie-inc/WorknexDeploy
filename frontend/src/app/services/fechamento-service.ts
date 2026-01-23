@@ -18,7 +18,7 @@ export class FechamentoService {
   constructor(private http: HttpClient, private toast: ToastService) {
     this.carregarFechamentos();
   };
-  apiUrl = 'http://localhost:3000/fechamentos';
+  apiUrl = 'https://worknexdeploy-production.up.railway.app/fechamentos';
   fechamentoEmEdicao?: Fechamento;
   fechamentoSelecionado?: Fechamento;
   fechamentoEmDelete?: Fechamento;

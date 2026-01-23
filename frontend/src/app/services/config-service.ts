@@ -8,7 +8,7 @@ import { ToastService } from './toast-service';
   providedIn: 'root'
 })
 export class ConfigService {
-  apiUrl = "http://localhost:3000/config";
+  apiUrl = "https://worknexdeploy-production.up.railway.app/config";
 
   constructor(private http: HttpClient, private toast: ToastService) {
     this.carregarConfig();
