@@ -1,0 +1,246 @@
+<section class="ckPage" *ngIf="app; else notFound">
+  <header class="ckTop">
+    <a class="ckBack" [routerLink]="['/marketplace', app.id]">
+      <span class="ckBack__icon">←</span>
+      <span>Voltar</span>
+    </a>
+  </header>
+
+  <div class="ckStepper" role="navigation" aria-label="Checkout steps">
+    <div class="ckStep" [class.ckStep--active]="step === 1" [class.ckStep--done]="step > 1">
+      <div class="ckStep__dot">1</div>
+      <div class="ckStep__label">Informações</div>
+    </div>
+
+    <div class="ckStepper__line"></div>
+
+    <div class="ckStep" [class.ckStep--active]="step === 2">
+      <div class="ckStep__dot">2</div>
+      <div class="ckStep__label">Pagamento</div>
+    </div>
+  </div>
+
+  <main class="ckGrid">
+    <section class="ckLeft">
+
+      <!-- STEP 1 -->
+
+      <article class="ckCard" *ngIf="step === 1">
+        <div class="ckCard__head">
+          <div class="ckCard__icon ckCard__icon--pink">📋</div>
+          <div>
+            <div class="ckCard__title">Informações da Empresa</div>
+            <div class="ckCard__sub">Preencha os dados da sua empresa</div>
+          </div>
+        </div>
+
+        <div class="ckForm">
+          <div class="ckRow ckRow--2">
+            <label class="ckField">
+              <span class="ckField__label">Nome da Empresa</span>
+              <div class="ckInput">
+                <span class="ckInput__icon">🏢</span>
+                <input [(ngModel)]="companyName" placeholder="Ex: Minha Empresa Ltda" />
+              </div>
+            </label>
+
+            <label class="ckField">
+              <span class="ckField__label">CNPJ</span>
+              <div class="ckInput">
+                <span class="ckInput__icon">🧾</span>
+                <input
+                  [ngModel]="cnpj"
+                  (ngModelChange)="onCnpjInput($event)"
+                  inputmode="numeric"
+                  placeholder="00.000.000/0000-00"
+                />
+              </div>
+            </label>
+          </div>
+
+          <label class="ckField">
+            <span class="ckField__label">Email Corporativo</span>
+            <div class="ckInput">
+              <span class="ckInput__icon">✉️</span>
+              <input [(ngModel)]="corporateEmail" type="email" placeholder="contato@empresa.com" />
+            </div>
+          </label>
+
+          <label class="ckField">
+            <span class="ckField__label">Telefone</span>
+            <div class="ckInput">
+              <span class="ckInput__icon">📞</span>
+              <input
+                [ngModel]="phone"
+                (ngModelChange)="onPhoneInput($event)"
+                inputmode="tel"
+                placeholder="(00) 00000-0000"
+              />
+            </div>
+          </label>
+        </div>
+      </article>
+
+
+      <article class="ckCard" *ngIf="step === 1">
+        <div class="ckCard__head">
+          <div class="ckCard__icon ckCard__icon--yellow">👤</div>
+          <div>
+            <div class="ckCard__title">Responsável pela Conta</div>
+            <div class="ckCard__sub">Dados da pessoa responsável</div>
+          </div>
+        </div>
+
+        <div class="ckForm">
+          <div class="ckRow ckRow--2">
+            <label class="ckField">
+              <span class="ckField__label">Nome Completo</span>
+              <div class="ckInput">
+                <span class="ckInput__icon">🙍</span>
+                <input [(ngModel)]="fullName" placeholder="João da Silva" />
+              </div>
+            </label>
+
+            <label class="ckField">
+              <span class="ckField__label">CPF</span>
+              <div class="ckInput">
+                <span class="ckInput__icon">🪪</span>
+                <input
+                  [ngModel]="cpf"
+                  (ngModelChange)="onCpfInput($event)"
+                  inputmode="numeric"
+                  placeholder="000.000.000-00"
+                />
+              </div>
+            </label>
+          </div>
+        </div>
+      </article>
+
+
+      <!-- STEP 2 -->
+
+      <article class="ckCard" *ngIf="step === 2">
+        <div class="ckCard__head">
+          <div class="ckCard__icon ckCard__icon--green">💠</div>
+          <div>
+            <div class="ckCard__title">Pagamento</div>
+            <div class="ckCard__sub">Escolha como deseja receber as instruções</div>
+          </div>
+        </div>
+
+        <div class="ckPayBox">
+          <div class="ckPayHint" *ngIf="!sent && !error">
+            Após solicitar o pagamento, enviaremos as instruções por email.
+          </div>
+
+          <div class="ckPayHint" *ngIf="sent">
+            Pedido enviado! Verifique seu email para continuar.
+          </div>
+
+          <div class="ckPayHint" *ngIf="error">
+            {{ error }}
+          </div>
+        </div>
+
+        <div class="ckActionsRow">
+          <button class="ckGhostBtn" type="button" (click)="backToInfo()">
+            Voltar
+          </button>
+
+          <button
+            class="ckPrimaryBtn"
+            type="button"
+            (click)="requestPayment('pix')"
+            [disabled]="sending"
+          >
+            {{ sending ? 'Enviando...' : 'Solicitar PIX' }}
+          </button>
+
+          <button
+            class="ckGhostBtn"
+            type="button"
+            (click)="requestPayment('boleto')"
+            [disabled]="sending"
+          >
+            Solicitar Boleto
+          </button>
+        </div>
+      </article>
+
+
+      <div class="ckBottomActions" *ngIf="step === 1">
+        <button
+          class="ckPrimaryBtn"
+          type="button"
+          (click)="next()"
+          [disabled]="!canContinue"
+        >
+          Continuar para pagamento
+        </button>
+      </div>
+
+    </section>
+
+
+    <!-- RIGHT SIDE SUMMARY -->
+
+    <aside class="ckRight">
+      <article class="ckSummary">
+        <div class="ckSummary__title">Resumo do Pedido</div>
+
+        <div class="ckSummary__app">
+          <div class="ckSummary__appName">{{ app.title }}</div>
+          <div class="ckSummary__appDesc">{{ app.desc }}</div>
+          <div class="ckTag">{{ app.category }}</div>
+        </div>
+
+        <div class="ckDivider"></div>
+
+        <div class="ckSummary__row">
+          <div class="ckSummary__label">Plano Selecionado</div>
+          <div class="ckSummary__plan">
+            <span class="ckSummary__planName">{{ selectedPlanName }}</span>
+            <span class="ckBadge" *ngIf="selectedPlanBadge">{{ selectedPlanBadge }}</span>
+          </div>
+        </div>
+
+        <div class="ckDivider"></div>
+
+        <div class="ckMoney">
+          <div class="ckMoney__row">
+            <span>Subtotal</span>
+            <span>R$ {{ subtotal }}</span>
+          </div>
+
+          <div class="ckMoney__row ckMoney__row--green">
+            <span>Desconto</span>
+            <span>-R$ {{ discount }}</span>
+          </div>
+        </div>
+
+        <div class="ckTotalBox">
+          <div class="ckTotalBox__meta">Total</div>
+          <div class="ckTotalBox__value">R$ {{ total }}</div>
+          <div class="ckTotalBox__sub">por mês</div>
+        </div>
+
+        <div class="ckGuarantee">
+          <span class="ckGuarantee__dot">✓</span>
+          <span>Garantia de 7 dias</span>
+        </div>
+      </article>
+    </aside>
+
+  </main>
+</section>
+
+
+<ng-template #notFound>
+  <section class="ckPage">
+    <div class="ckNotFound">
+      <h2>Aplicação não encontrada</h2>
+      <a routerLink="/marketplace">Voltar ao Marketplace</a>
+    </div>
+  </section>
+</ng-template>

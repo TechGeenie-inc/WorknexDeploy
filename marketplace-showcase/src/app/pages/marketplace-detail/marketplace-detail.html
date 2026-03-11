@@ -1,0 +1,348 @@
+<section class="mdTop" *ngIf="app; else notFound">
+  <div class="mdTop__inner">
+
+    <a class="mdBack" [routerLink]="['/marketplace']">
+      <span class="mdBack__icon">←</span>
+      <span>Voltar ao Marketplace</span>
+    </a>
+
+    <div class="mdHero">
+
+      <div class="mdHero__left">
+        <div class="mdMedia">
+          <img class="mdMedia__img" [src]="app.imageUrl" [alt]="app.title"/>
+        </div>
+
+        <div class="mdTags">
+          <span class="mdPill">{{ app.category }}</span>
+
+          <span
+            class="mdMini"
+            [class.mdMini--pink]="app.level.tone === 'pink'"
+            [class.mdMini--yellow]="app.level.tone === 'yellow'"
+            [class.mdMini--green]="app.level.tone === 'green'"
+          >
+            {{ app.level.label }}
+          </span>
+        </div>
+      </div>
+
+
+      <div class="mdHero__right">
+
+        <h1 class="mdTitle">{{ app.title }}</h1>
+        <p class="mdDesc">{{ app.longDesc || app.desc }}</p>
+
+        <div class="mdRating" *ngIf="app.rating">
+          <div class="mdStars">
+            <span class="mdStar" *ngFor="let s of stars">{{ s ? '★' : '☆' }}</span>
+          </div>
+
+          <div class="mdRating__meta">
+            ({{ app.rating }} de 5 - {{ app.reviewsCount || 0 }} avaliações)
+          </div>
+        </div>
+
+
+        <div class="mdPriceCard">
+
+          <div class="mdPriceCard__label">
+            <span class="mdZap">⚡</span>
+            <span>A partir de:</span>
+          </div>
+
+          <div class="mdPrice">
+            <span class="mdPrice__currency">R$</span>
+            <span class="mdPrice__value">{{ app.price }}</span>
+            <span class="mdPrice__per">/mês</span>
+          </div>
+
+          <ul class="mdPerks" *ngIf="app.perks?.length">
+            <li class="mdPerk" *ngFor="let p of app.perks">
+              <span class="mdCheck">✓</span>
+              <span>{{ p }}</span>
+            </li>
+          </ul>
+
+          <!-- generic contratar -->
+          <button
+            class="mdPrimary"
+            type="button"
+            [routerLink]="['/marketplace', app?.id, 'checkout']"
+            [queryParams]="{ plan: app?.plans?.find(p => p.recommended)?.name }"
+          >
+            Contratar agora
+          </button>
+
+        </div>
+
+
+        <div class="mdAudience" *ngIf="app.audiences?.length">
+
+          <div class="mdAudience__title">
+            Público-alvo:
+          </div>
+
+          <div class="mdAudience__chips">
+            <span class="mdChip" *ngFor="let a of app.audiences">
+              <span class="mdChip__icon">{{ a === 'PME' ? '👥' : '🏢' }}</span>
+              <span>{{ a }}</span>
+            </span>
+          </div>
+
+        </div>
+
+      </div>
+    </div>
+
+
+
+    <div class="mdTabs">
+      <div class="mdTabs__pill">
+
+        <button
+          type="button"
+          class="mdTab"
+          [class.mdTab--active]="tab === 'features'"
+          (click)="setTab('features')"
+        >
+          Funcionalidades
+        </button>
+
+        <button
+          type="button"
+          class="mdTab"
+          [class.mdTab--active]="tab === 'plans'"
+          (click)="setTab('plans')"
+        >
+          Planos
+        </button>
+
+      </div>
+    </div>
+
+
+
+    <section class="mdPanel" *ngIf="tab === 'features'">
+
+      <div class="mdCard">
+
+        <h2 class="mdCard__title">
+          Principais Funcionalidades
+        </h2>
+
+        <p class="mdCard__sub">
+          Tudo que você precisa em uma única solução
+        </p>
+
+        <div class="mdFeatGrid">
+
+          <div class="mdFeat" *ngFor="let f of app.features">
+            <div class="mdFeat__icon">✓</div>
+            <div class="mdFeat__text">{{ f }}</div>
+          </div>
+
+        </div>
+      </div>
+    </section>
+
+
+
+    <section class="mdPanel" *ngIf="tab === 'plans'">
+
+      <div class="mpPlansGrid" *ngIf="app.plans?.length">
+
+        <article
+          class="mpPlanCard"
+          *ngFor="let pl of app.plans"
+          [class.mpPlanCard--featured]="pl.recommended"
+        >
+
+          <div
+            class="mpPlanHeader"
+            [class.mpPlanHeader--dark]="pl.recommended"
+          >
+
+            <div class="mpReco" *ngIf="pl.recommended">
+              <span class="mpReco__icon">⚡</span>
+              <span>Recomendado</span>
+            </div>
+
+            <h3 class="mpPlanName">
+              {{ pl.name }}
+            </h3>
+
+            <p class="mpPlanSub">
+              {{ pl.subtitle }}
+            </p>
+
+          </div>
+
+
+
+          <div class="mpPlanBody">
+
+            <div class="mpPlanPrice">
+              {{ pl.priceLabel }}
+            </div>
+
+            <ul class="mpPlanList">
+
+              <li
+                class="mpPlanLi"
+                *ngFor="let b of pl.bullets"
+              >
+                <span class="mpCircleCheck">✓</span>
+                <span>{{ b }}</span>
+              </li>
+
+            </ul>
+
+
+            <button
+              class="mpPlanBtn"
+              type="button"
+              [class.mpPlanBtn--filled]="pl.recommended"
+              [routerLink]="['/marketplace', app?.id, 'checkout']"
+              [queryParams]="{ plan: pl.name }"
+            >
+              {{ pl.ctaLabel }}
+            </button>
+
+          </div>
+        </article>
+      </div>
+
+    </section>
+
+
+
+    <section class="mdBenefits" *ngIf="app.benefits?.length">
+
+      <article
+        class="mdBenefit"
+        *ngFor="let b of app.benefits"
+        [class.mdBenefit--pink]="b.tone === 'pink'"
+        [class.mdBenefit--yellow]="b.tone === 'yellow'"
+        [class.mdBenefit--green]="b.tone === 'green'"
+      >
+
+        <div class="mdBenefit__icon">
+
+          <span *ngIf="b.icon === 'shield'">🛡️</span>
+          <span *ngIf="b.icon === 'bolt'">⚡</span>
+          <span *ngIf="b.icon === 'trend'">📈</span>
+
+        </div>
+
+        <div class="mdBenefit__title">
+          {{ b.title }}
+        </div>
+
+        <div class="mdBenefit__desc">
+          {{ b.desc }}
+        </div>
+
+      </article>
+
+    </section>
+
+
+
+    <section class="mdCta">
+
+      <div class="mdCta__inner">
+
+        <h2 class="mdCta__title">
+          {{ app.ctaTitle || 'Pronto para transformar seu negócio?' }}
+        </h2>
+
+        <p class="mdCta__sub">
+          {{ app.ctaSubtitle || 'Comece agora mesmo e veja os resultados' }}
+        </p>
+
+        <div class="mdCta__actions">
+
+          <button
+            class="mdCta__primary"
+            type="button"
+            [routerLink]="['/marketplace', app?.id, 'checkout']"
+            [queryParams]="{ plan: app?.plans?.find(p => p.recommended)?.name }"
+          >
+            Contratar agora
+          </button>
+
+          <a class="mdCta__ghost" [routerLink]="['/marketplace']">
+            Ver mais soluções
+          </a>
+
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+</section>
+
+
+
+<ng-template #notFound>
+  <section class="mdNotFound">
+    <h2>Aplicação não encontrada</h2>
+    <a [routerLink]="['/marketplace']">Voltar ao Marketplace</a>
+  </section>
+</ng-template>
+
+
+
+<footer class="mpFooter">
+
+  <div class="mpFooter__inner">
+
+    <div class="mpFooter__top">
+
+      <div class="mpFooter__brand">
+        <h3 class="mpFooter__logo">Worknex</h3>
+
+        <p class="mpFooter__desc">
+          Plataforma de soluções digitais para impulsionar empresas com tecnologia moderna.
+        </p>
+      </div>
+
+
+      <div class="mpFooter__col">
+        <h4 class="mpFooter__title">Marketplace</h4>
+
+        <a routerLink="/marketplace">Explorar soluções</a>
+        <a routerLink="/marketplace">Mais populares</a>
+        <a routerLink="/marketplace">Novidades</a>
+      </div>
+
+
+      <div class="mpFooter__col">
+        <h4 class="mpFooter__title">Empresa</h4>
+
+        <a href="#">Sobre</a>
+        <a href="#">Contato</a>
+        <a href="#">Carreiras</a>
+      </div>
+
+
+      <div class="mpFooter__col">
+        <h4 class="mpFooter__title">Suporte</h4>
+
+        <a href="#">Central de ajuda</a>
+        <a href="#">Documentação</a>
+        <a href="#">Status</a>
+      </div>
+
+    </div>
+
+
+    <div class="mpFooter__bottom">
+      <span>© 2026 Worknex. Todos os direitos reservados.</span>
+    </div>
+
+  </div>
+</footer>

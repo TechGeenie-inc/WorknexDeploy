@@ -1,8 +1,0 @@
-<div class="toast-wrapper">
-    <div class="toast" *ngFor="let t of toasts" [class.fade-out]="t._closing">
-
-        <span class="toast-text">{{ t.text }}</span>
-
-        <button class="close-btn" (click)="close(t.id!)">×</button>
-    </div>
-</div>
