@@ -1,0 +1,127 @@
+<section class="coHero">
+  <div class="coHero__inner">
+    <div class="coHero__icon">✨</div>
+
+    <h1 class="coHero__title">
+      Aqui você não precisa <br />
+      <span>saber tecnologia.</span>
+    </h1>
+
+    <p class="coHero__subtitle">
+      Você só precisa explicar como o trabalho acontece hoje.
+    </p>
+
+    <p class="coHero__note">
+      A Worknex cuida do resto.
+    </p>
+  </div>
+</section>
+
+<section class="coForm">
+  <div class="coForm__card">
+
+    <div class="coForm__header">
+      <h2>Conte pra gente: como esse trabalho funciona hoje?</h2>
+      <p>Responda com suas próprias palavras. Não existe resposta errada.</p>
+    </div>
+
+    <form
+      class="coForm__body"
+      (submit)="sendCocreation(
+        jobType.value,
+        whoDoes.value,
+        frequency.value,
+        tools.value,
+        ideal.value
+      ); $event.preventDefault()"
+      novalidate
+    >
+
+      <div class="qBlock">
+        <div class="qBlock__title">
+          <div class="qIcon yellow">🔧</div>
+          <div>
+            <h3>Que tipo de trabalho é esse?</h3>
+            <span>ex: financeiro, vendas, estoque, atendimento, contratos, RH, operações</span>
+          </div>
+        </div>
+        <input class="qInput" type="text" placeholder="Digite aqui..." #jobType />
+      </div>
+
+      <div class="qBlock">
+        <div class="qBlock__title">
+          <div class="qIcon green">👤</div>
+          <div>
+            <h3>Quem faz esse trabalho hoje?</h3>
+            <span>ex: você, um funcionário, contador, mais de uma pessoa</span>
+          </div>
+        </div>
+        <input class="qInput" type="text" placeholder="Digite aqui..." #whoDoes />
+      </div>
+
+      <div class="qBlock">
+        <div class="qBlock__title">
+          <div class="qIcon red">📅</div>
+          <div>
+            <h3>Com que frequência ele acontece?</h3>
+            <span>todo dia, toda semana, só no fim do mês, quando surge um problema</span>
+          </div>
+        </div>
+        <input class="qInput" type="text" placeholder="Digite aqui..." #frequency />
+      </div>
+
+      <div class="qBlock">
+        <div class="qBlock__title">
+          <div class="qIcon teal">🧰</div>
+          <div>
+            <h3>Quais ferramentas você usa hoje?</h3>
+            <span>planilha, WhatsApp, sistema, papel, vários ao mesmo tempo</span>
+          </div>
+        </div>
+        <input class="qInput" type="text" placeholder="Digite aqui..." #tools />
+      </div>
+
+      <div class="qBlock">
+        <div class="qBlock__title">
+          <div class="qIcon purple">🎯</div>
+          <div>
+            <h3>Se esse trabalho funcionasse no nível ideal, o que mudaria?</h3>
+            <span>O que deixaria de ser manual? O que deveria acontecer sozinho?</span>
+          </div>
+        </div>
+        <textarea class="qTextarea" placeholder="Conte pra gente..." #ideal></textarea>
+      </div>
+
+      <div class="coForm__status" *ngIf="error">{{ error }}</div>
+      <div class="coForm__status coForm__status--ok" *ngIf="sent">
+        Recebemos sua resposta! Em breve entraremos em contato.
+      </div>
+
+      <button class="coSubmit" type="submit" [disabled]="sending">
+        {{ sending ? 'Enviando...' : 'Enviar e Cocriar Minha Solução →' }}
+      </button>
+
+    </form>
+
+  </div>
+</section>
+
+<section class="coClosing">
+  <div class="coClosing__card">
+
+    <div class="coClosing__icon">✨</div>
+
+    <h3 class="coClosing__title">
+      Com essas informações, a Worknex vai cocriar uma solução conectada
+    </h3>
+
+    <p class="coClosing__subtitle">
+      Não é sobre usar mais sistemas.
+    </p>
+
+    <p class="coClosing__highlight">
+      É sobre levar esse trabalho ao próximo nível.
+    </p>
+
+  </div>
+</section>

@@ -1,0 +1,152 @@
+<section class="mpHero">
+  <div class="mpHero__inner">
+    <div class="mpHero__pill">
+      <span class="mpHero__spark">✨</span>
+      <span>{{ apps.length }} soluções disponíveis</span>
+    </div>
+
+    <h1 class="mpHero__title">Marketplace Worknex</h1>
+    <p class="mpHero__subtitle">
+      Explore nossas soluções profissionais e encontre o software perfeito para o<br />
+      seu negócio
+    </p>
+  </div>
+</section>
+
+<section class="mpBody">
+  <div class="mpBody__inner">
+    <div class="mpTopbar">
+      <div class="mpSearch">
+        <span class="mpSearch__icon">⌕</span>
+        <input
+          class="mpSearch__input"
+          type="text"
+          placeholder="Buscar aplicações..."
+          [(ngModel)]="query"
+        />
+      </div>
+
+      <div class="mpTopbar__right">
+        <button class="mpSelect" type="button">
+          <span>Mais populares</span>
+          <span class="mpSelect__chev">⌄</span>
+        </button>
+
+        <button class="mpFilters" type="button">
+          <span class="mpFilters__icon">⎚</span>
+          <span>Filtros</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="mpCats">
+      <button
+        class="mpChip"
+        [class.mpChip--active]="selectedCategory === 'Todos'"
+        type="button"
+        (click)="selectCategory('Todos')"
+      >
+        Todos
+      </button>
+
+      <button
+        class="mpChip"
+        *ngFor="let c of categories"
+        [class.mpChip--active]="selectedCategory === c"
+        type="button"
+        (click)="selectCategory(c)"
+      >
+        {{ c }}
+      </button>
+    </div>
+
+    <div class="mpCount">{{ filteredApps.length }} aplicações encontradas</div>
+
+    <div class="mpGrid">
+      <article class="mpCard" *ngFor="let app of filteredApps">
+        <div class="mpCard__media">
+          <div class="mpCard__badge" *ngIf="app.badge">
+            ✨ <span>{{ app.badge }}</span>
+          </div>
+
+          <img [src]="app.imageUrl" [alt]="app.title" />
+        </div>
+
+        <div class="mpCard__body">
+          <div class="mpCard__topTags">
+            <span class="pillTag">{{ app.category }}</span>
+
+            <span
+              class="miniTag"
+              [class.miniTag--salmon]="app.level.tone === 'pink'"
+              [class.miniTag--yellow]="app.level.tone === 'yellow'"
+              [class.miniTag--green]="app.level.tone === 'green'"
+            >
+              {{ app.level.label }}
+            </span>
+          </div>
+
+          <h3 class="mpCard__title">{{ app.title }}</h3>
+          <p class="mpCard__desc">{{ app.desc }}</p>
+
+          <div class="mpCard__bullets">
+            <span class="bulletChip" *ngFor="let f of app.features">{{ f }}</span>
+          </div>
+
+          <div
+            class="priceBox"
+            [class.priceBox--pink]="app.priceTone === 'pink'"
+            [class.priceBox--cream]="app.priceTone === 'cream'"
+            [class.priceBox--mint]="app.priceTone === 'mint'"
+          >
+            <div class="priceBox__label">A partir de:</div>
+            <div class="priceBox__row">
+              <span class="priceBox__currency">R$</span>
+              <span class="priceBox__value">{{ app.price }}</span>
+              <span class="priceBox__per">/mês</span>
+            </div>
+          </div>
+
+          <a class="btnWide" [routerLink]="['/marketplace', app.id]">Ver detalhes</a>
+        </div>
+      </article>
+    </div>
+  </div>
+</section>
+<footer class="mpFooter">
+  <div class="mpFooter__inner">
+    <div class="mpFooter__top">
+      <div class="mpFooter__brand">
+        <h3 class="mpFooter__logo">Worknex</h3>
+        <p class="mpFooter__desc">
+          Plataforma de soluções digitais para impulsionar empresas com tecnologia moderna.
+        </p>
+      </div>
+
+      <div class="mpFooter__col">
+        <h4 class="mpFooter__title">Marketplace</h4>
+        <a routerLink="/marketplace">Explorar soluções</a>
+        <a routerLink="/marketplace">Mais populares</a>
+        <a routerLink="/marketplace">Novidades</a>
+      </div>
+
+      <div class="mpFooter__col">
+        <h4 class="mpFooter__title">Empresa</h4>
+        <a href="#">Sobre</a>
+        <a href="#">Contato</a>
+        <a href="#">Carreiras</a>
+      </div>
+
+      <div class="mpFooter__col">
+        <h4 class="mpFooter__title">Suporte</h4>
+        <a href="#">Central de ajuda</a>
+        <a href="#">Documentação</a>
+        <a href="#">Status</a>
+      </div>
+    </div>
+
+    <div class="mpFooter__bottom">
+      <span>© 2026 Worknex. Todos os direitos reservados.</span>
+    </div>
+  </div>
+</footer>
