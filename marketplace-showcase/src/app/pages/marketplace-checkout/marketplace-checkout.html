@@ -7,25 +7,16 @@
   </header>
 
   <div class="ckStepper" role="navigation" aria-label="Checkout steps">
-    <div class="ckStep" [class.ckStep--active]="step === 1" [class.ckStep--done]="step > 1">
+    <div class="ckStep ckStep--active">
       <div class="ckStep__dot">1</div>
       <div class="ckStep__label">Informações</div>
-    </div>
-
-    <div class="ckStepper__line"></div>
-
-    <div class="ckStep" [class.ckStep--active]="step === 2">
-      <div class="ckStep__dot">2</div>
-      <div class="ckStep__label">Pagamento</div>
     </div>
   </div>
 
   <main class="ckGrid">
     <section class="ckLeft">
 
-      <!-- STEP 1 -->
-
-      <article class="ckCard" *ngIf="step === 1">
+      <article class="ckCard">
         <div class="ckCard__head">
           <div class="ckCard__icon ckCard__icon--pink">📋</div>
           <div>
@@ -81,8 +72,7 @@
         </div>
       </article>
 
-
-      <article class="ckCard" *ngIf="step === 1">
+      <article class="ckCard">
         <div class="ckCard__head">
           <div class="ckCard__icon ckCard__icon--yellow">👤</div>
           <div>
@@ -117,10 +107,7 @@
         </div>
       </article>
 
-
-      <!-- STEP 2 -->
-
-      <article class="ckCard" *ngIf="step === 2">
+      <article class="ckCard">
         <div class="ckCard__head">
           <div class="ckCard__icon ckCard__icon--green">💠</div>
           <div>
@@ -144,15 +131,11 @@
         </div>
 
         <div class="ckActionsRow">
-          <button class="ckGhostBtn" type="button" (click)="backToInfo()">
-            Voltar
-          </button>
-
           <button
             class="ckPrimaryBtn"
             type="button"
             (click)="requestPayment('pix')"
-            [disabled]="sending"
+            [disabled]="sending || !canContinue"
           >
             {{ sending ? 'Enviando...' : 'Solicitar PIX' }}
           </button>
@@ -161,29 +144,14 @@
             class="ckGhostBtn"
             type="button"
             (click)="requestPayment('boleto')"
-            [disabled]="sending"
+            [disabled]="sending || !canContinue"
           >
             Solicitar Boleto
           </button>
         </div>
       </article>
 
-
-      <div class="ckBottomActions" *ngIf="step === 1">
-        <button
-          class="ckPrimaryBtn"
-          type="button"
-          (click)="next()"
-          [disabled]="!canContinue"
-        >
-          Continuar para pagamento
-        </button>
-      </div>
-
     </section>
-
-
-    <!-- RIGHT SIDE SUMMARY -->
 
     <aside class="ckRight">
       <article class="ckSummary">
@@ -234,7 +202,6 @@
 
   </main>
 </section>
-
 
 <ng-template #notFound>
   <section class="ckPage">

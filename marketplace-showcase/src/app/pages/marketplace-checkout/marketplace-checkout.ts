@@ -5,7 +5,6 @@ import { FormsModule } from "@angular/forms";
 
 import { MARKETPLACE_APPS, type AppItem } from "../../data/marketplace-apps";
 
-type Step = 1 | 2;
 type PaymentMethod = "pix" | "boleto";
 
 @Component({
@@ -17,7 +16,6 @@ type PaymentMethod = "pix" | "boleto";
 })
 export class MarketplaceCheckout implements OnInit {
   app?: AppItem;
-  step: Step = 1;
 
   companyName = "";
   cnpj = "";
@@ -37,7 +35,10 @@ export class MarketplaceCheckout implements OnInit {
   sent = false;
   error = "";
 
-  constructor(private route: ActivatedRoute, private cdr: ChangeDetectorRef) {}
+  constructor(
+    private route: ActivatedRoute,
+    private cdr: ChangeDetectorRef
+  ) {}
 
   ngOnInit() {
     const id = this.route.snapshot.paramMap.get("id");
@@ -59,7 +60,7 @@ export class MarketplaceCheckout implements OnInit {
   }
 
   get canContinue() {
-    return (
+    return !!(
       this.companyName.trim() &&
       this.cnpj.trim() &&
       this.corporateEmail.trim() &&
@@ -68,61 +69,29 @@ export class MarketplaceCheckout implements OnInit {
     );
   }
 
-onCnpjInput(v: string) {
-  const digits = v.replace(/\D/g, "").slice(0, 14);
-  this.cnpj = this.formatCnpj(digits);
-}
-
-onCpfInput(v: string) {
-  const digits = v.replace(/\D/g, "").slice(0, 11);
-  this.cpf = this.formatCpf(digits);
-}
-
-onPhoneInput(v: string) {
-  const digits = v.replace(/\D/g, "").slice(0, 11);
-  this.phone = this.formatPhoneBr(digits);
-}
-
-private formatCpf(d: string) {
-  if (d.length <= 3) return d;
-  if (d.length <= 6) return `${d.slice(0, 3)}.${d.slice(3)}`;
-  if (d.length <= 9) return `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6)}`;
-  return `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6, 9)}-${d.slice(9)}`;
-}
-
-private formatCnpj(d: string) {
-  if (d.length <= 2) return d;
-  if (d.length <= 5) return `${d.slice(0, 2)}.${d.slice(2)}`;
-  if (d.length <= 8) return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5)}`;
-  if (d.length <= 12) return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5, 8)}/${d.slice(8)}`;
-  return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5, 8)}/${d.slice(8, 12)}-${d.slice(12)}`;
-}
-
-private formatPhoneBr(d: string) {
-  if (d.length <= 2) return d;
-  if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
-  if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
-  return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
-}
-
-  next() {
-    if (!this.canContinue) return;
-    this.step = 2;
-    this.sent = false;
-    this.error = "";
-  }
-
-  backToInfo() {
-    this.step = 1;
-  }
-
   get total() {
     return Math.max(0, this.subtotal - this.discount);
+  }
+
+  onCnpjInput(v: string) {
+    const digits = v.replace(/\D/g, "").slice(0, 14);
+    this.cnpj = this.formatCnpj(digits);
+  }
+
+  onCpfInput(v: string) {
+    const digits = v.replace(/\D/g, "").slice(0, 11);
+    this.cpf = this.formatCpf(digits);
+  }
+
+  onPhoneInput(v: string) {
+    const digits = v.replace(/\D/g, "").slice(0, 11);
+    this.phone = this.formatPhoneBr(digits);
   }
 
   async requestPayment(method: PaymentMethod) {
     if (!this.app) return;
     if (this.sending) return;
+    if (!this.canContinue) return;
 
     this.sending = true;
     this.sent = false;
@@ -177,14 +146,39 @@ private formatPhoneBr(d: string) {
     }
   }
 
+  private formatCpf(d: string) {
+    if (d.length <= 3) return d;
+    if (d.length <= 6) return `${d.slice(0, 3)}.${d.slice(3)}`;
+    if (d.length <= 9) return `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6)}`;
+    return `${d.slice(0, 3)}.${d.slice(3, 6)}.${d.slice(6, 9)}-${d.slice(9)}`;
+  }
+
+  private formatCnpj(d: string) {
+    if (d.length <= 2) return d;
+    if (d.length <= 5) return `${d.slice(0, 2)}.${d.slice(2)}`;
+    if (d.length <= 8) return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5)}`;
+    if (d.length <= 12) {
+      return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5, 8)}/${d.slice(8)}`;
+    }
+    return `${d.slice(0, 2)}.${d.slice(2, 5)}.${d.slice(5, 8)}/${d.slice(8, 12)}-${d.slice(12)}`;
+  }
+
+  private formatPhoneBr(d: string) {
+    if (d.length <= 2) return d;
+    if (d.length <= 6) return `(${d.slice(0, 2)}) ${d.slice(2)}`;
+    if (d.length <= 10) return `(${d.slice(0, 2)}) ${d.slice(2, 6)}-${d.slice(6)}`;
+    return `(${d.slice(0, 2)}) ${d.slice(2, 7)}-${d.slice(7)}`;
+  }
+
   private parsePrice(priceLabel?: string): number | null {
     if (!priceLabel) return null;
+
     const m = priceLabel.match(/R\$\s*([\d\.\,]+)/);
     if (!m) return null;
 
     const raw = m[1].replace(/\./g, "").replace(",", ".");
     const value = Number(raw);
+
     return Number.isFinite(value) ? value : null;
   }
 }
-
