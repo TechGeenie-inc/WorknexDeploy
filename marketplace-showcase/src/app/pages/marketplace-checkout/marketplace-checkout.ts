@@ -116,7 +116,7 @@ export class MarketplaceCheckout implements OnInit {
         },
       };
 
-      const res = await fetch("http://worknexdeploy-production.up.railway.app:3001/checkout/request", {
+      const res = await fetch("https://worknexdeploy-production.up.railway.app:3001/checkout/request", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),
