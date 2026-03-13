@@ -6,6 +6,7 @@ import { FormsModule } from "@angular/forms";
 import { MARKETPLACE_APPS, type AppItem } from "../../data/marketplace-apps";
 
 type PaymentMethod = "pix" | "boleto";
+const API_BASE = 'https://worknexdeploy-production.up.railway.app';
 
 @Component({
   selector: "app-marketplace-checkout",
@@ -16,7 +17,7 @@ type PaymentMethod = "pix" | "boleto";
 })
 export class MarketplaceCheckout implements OnInit {
   app?: AppItem;
-
+  
   companyName = "";
   cnpj = "";
   corporateEmail = "";
@@ -116,7 +117,7 @@ export class MarketplaceCheckout implements OnInit {
         },
       };
 
-      const res = await fetch("https://worknexdeploy-production.up.railway.app:3001/checkout/request", {
+      const res = await fetch(`${API_BASE}/checkout/request`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(payload),

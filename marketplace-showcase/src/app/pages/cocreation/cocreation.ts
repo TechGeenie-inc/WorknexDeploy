@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-const API_BASE = 'https://worknexdeploy-production.up.railway.app:3001';
+const API_BASE = 'https://worknexdeploy-production.up.railway.app';
 
 @Component({
   selector: 'app-cocreation',
