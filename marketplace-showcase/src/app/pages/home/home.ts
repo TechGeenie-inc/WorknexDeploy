@@ -1,7 +1,7 @@
 import { Component } from '@angular/core';
 import { RouterLink } from '@angular/router';
 
-const API_BASE = 'http://localhost:3001';
+const API_BASE = 'https://worknexdeploy-production.up.railway.app:3001';
 
 @Component({
   selector: 'app-home',
