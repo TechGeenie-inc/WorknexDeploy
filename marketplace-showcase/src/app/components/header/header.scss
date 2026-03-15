@@ -23,7 +23,7 @@
   color: inherit;
 
   img{
-    width: 8vw;
+    width: 10vw;
   }
 }
 
@@ -110,4 +110,37 @@
 
 .logo{
   width: 2vw;
+}
+
+/* tablets */
+@media (max-width: 1024px) {
+  .links a {
+    font-size: 12px;
+    margin: 2%;
+  }
+
+  .links {
+    width: 65%;
+  }
+
+  .inner {
+    gap: 20px;
+  }
+}
+
+/* phones */
+@media (max-width: 720px) {
+
+  .links {
+    width: 70%;
+  }
+
+  .links a {
+    font-size: 8px;
+    margin: 3%;
+  }
+
+  .brand img {
+    width: 90px;
+  }
 }
