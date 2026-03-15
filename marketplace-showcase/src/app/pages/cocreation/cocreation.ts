@@ -11,6 +11,7 @@ const API_BASE = 'https://worknexdeploy-production.up.railway.app';
   styleUrl: './cocreation.scss',
 })
 export class Cocreation {
+  //
 
   sending = false;
   sent = false;
